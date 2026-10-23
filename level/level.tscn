@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://cv3xcxfheatik"]
 
+[ext_resource type="PackedScene" uid="uid://dxnok0kax3dmh" path="res://cat/player.tscn" id="1_7lnir"]
+
 [sub_resource type="Gradient" id="Gradient_yy828"]
 colors = PackedColorArray(0.47058824, 0.654902, 0.63529414, 1, 0.47058824, 0.654902, 0.63529414, 1)
 
@@ -8,7 +10,12 @@ gradient = SubResource("Gradient_yy828")
 
 [node name="level" type="Node2D" unique_id=484725990]
 
+[node name="player" parent="." unique_id=169657093 instance=ExtResource("1_7lnir")]
+
 [node name="bg" type="Sprite2D" parent="." unique_id=1111359736]
+light_mask = 0
+visibility_layer = 512
+z_index = -1
 position = Vector2(639.25, 360.875)
 scale = Vector2(5.044922, 732.25)
 texture = SubResource("GradientTexture1D_7lnir")
