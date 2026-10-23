@@ -13,16 +13,22 @@ extends CharacterBody2D
 var walk: bool = false
 var is_flip: bool = false
 
-var is_dodge = false
+var is_dodge: bool = false
 var jump: bool = false
 var dodge_x: float = 0
 var dodge_y: float = 0
 var dodge_cooldown: float = 1
 
-var is_attack = false
+var is_attack: bool = false
+var attack_intent: bool = false
+var attack_hold_t: float = 0
+var attack_hold: float = 0.5
+var is_bite: bool = false
+var bite_x: float = 0
+var bite_y: float = 0
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("dodge") and !is_dodge and dodge_t.is_stopped():
+	if event.is_action_pressed("dodge") and !is_dodge and dodge_t.is_stopped() and !is_attack:
 		animation.play("RESET", 0.05)
 		await get_tree().create_timer(0.05).timeout
 		dodge_t.start(dodge_cooldown)
@@ -34,9 +40,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			dodge_y = velocity.y
 		else:
 			animation.play("jump", 0.3)
-	elif event.is_action_pressed("attack"):
-		pass
-	
+	elif event.is_action_pressed("attack") and !is_attack and !is_dodge and !attack_intent:
+		attack_intent = true
+	elif event.is_action_released("attack"):
+		attack_intent = false
+
 func _physics_process(delta: float) -> void:
 	var direction1 := Input.get_axis("ui_left", "ui_right")
 	var direction2 := Input.get_axis("ui_up", "ui_down")
@@ -58,12 +66,26 @@ func _physics_process(delta: float) -> void:
 	
 	if (abs(velocity.x) + abs(velocity.y) == 0):
 		walk = false
-		
-	if (is_dodge):
+	
+	if !is_attack:
+		if (attack_intent):
+			attack_hold_t += delta
+			if attack_hold_t > attack_hold:
+				bite()
+		elif !attack_intent and attack_hold_t > 0:
+			swipe()
+	
+	if (is_dodge and !jump):
 		velocity.x = dodge_x * 1.5
 		velocity.y = dodge_y * 1.5
-	move_and_slide()
-	if (!is_dodge):
+		
+	if (is_bite):
+		velocity.x = bite_x / 1.2
+		velocity.y = bite_y / 1.2
+	if (!is_attack) or is_bite:
+		move_and_slide()
+	
+	if !is_dodge and !is_attack:
 		if (velocity.x > 0) and sprite.flip_h:
 			if !is_flip:
 				sprite_flip()
@@ -72,7 +94,7 @@ func _physics_process(delta: float) -> void:
 				sprite_flip()
 		
 		if (walk) and (!animation.is_playing() or (animation.is_playing() and animation.current_animation == "RESET")):
-			animation.play("walk", 0.3)
+			animation.play("walk")
 		elif !walk and animation.is_playing() and animation.current_animation == "walk":
 			animation.play("RESET", 0.3)
 
@@ -118,3 +140,24 @@ func dodge_fin():
 
 func _on_dodge_timeout() -> void:
 	dodge_t.stop()
+
+func swipe():
+	is_attack = true
+	animation.play("swipe")
+	
+func bite():
+	is_attack = true
+	is_bite = true
+	bite_x = velocity.x
+	bite_y = velocity.y
+	animation.play("bite")
+
+func attack_fin():
+	is_attack = false
+	is_bite = false
+	bite_x = 0
+	bite_y = 0
+	attack_intent = false
+	attack_hold_t = 0
+	animation.stop()
+	animation.play("RESET")
