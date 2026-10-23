@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cv3xcxfheatik"]
+
+[sub_resource type="Gradient" id="Gradient_yy828"]
+colors = PackedColorArray(0.47058824, 0.654902, 0.63529414, 1, 0.47058824, 0.654902, 0.63529414, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7lnir"]
+gradient = SubResource("Gradient_yy828")
+
+[node name="level" type="Node2D" unique_id=484725990]
+
+[node name="bg" type="Sprite2D" parent="." unique_id=1111359736]
+position = Vector2(639.25, 360.875)
+scale = Vector2(5.044922, 732.25)
+texture = SubResource("GradientTexture1D_7lnir")
