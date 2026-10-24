@@ -4,10 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://bu4dfbss3drgf" path="res://sprite/enchant_0008_cat_idel.png" id="1_4caqf"]
 [ext_resource type="Script" uid="uid://cmd2nj6sn5yrq" path="res://cat/player.gd" id="1_ttamq"]
 [ext_resource type="Script" uid="uid://dw6v8nlkwi2m" path="res://cat/ani_sprite.gd" id="2_bqwmm"]
+[ext_resource type="PackedScene" uid="uid://d2uii2ay4gi77" path="res://cat/player_ui.tscn" id="2_jukwj"]
 [ext_resource type="Texture2D" uid="uid://5akudhin5w5d" path="res://sprite/enchant_0007_cat_jump.png" id="3_0alkt"]
 [ext_resource type="Texture2D" uid="uid://b4tdawhyn5ub8" path="res://sprite/enchant_0009_cat_idel_e.png" id="3_ttamq"]
 [ext_resource type="Texture2D" uid="uid://b5lkpd7tk5rap" path="res://sprite/enchant_0006_cat_startup.png" id="4_ttamq"]
 [ext_resource type="Texture2D" uid="uid://lkd1s025xuak" path="res://sprite/enchant_0005_cat_swipe.png" id="5_bqwmm"]
+[ext_resource type="Texture2D" uid="uid://dge0yesv5wv8x" path="res://sprite/attack/attack_0000_bite_down.png" id="10_mko4r"]
+[ext_resource type="Texture2D" uid="uid://dojf4tw6s8nha" path="res://sprite/attack/attack_0001_bite_up.png" id="11_kk865"]
+[ext_resource type="Texture2D" uid="uid://c7q0b65q4q0li" path="res://sprite/attack/attack_0002_swipe.png" id="12_7g6ba"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jukwj"]
 animations = [{
@@ -107,6 +111,42 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("att_spi:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("att_spi/attack_sprite:animation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"swipe"]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("att_spi/attack_sprite:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_bqwmm"]
 resource_name = "bite"
@@ -186,6 +226,42 @@ tracks/4/keys = {
 "args": [],
 "method": &"check_bite"
 }]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("att_spi:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.1666666),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("att_spi/attack_sprite:animation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"bite"]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("att_spi/attack_sprite:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.3, 0.9666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
 }
 
 [sub_resource type="Animation" id="Animation_jukwj"]
@@ -399,6 +475,42 @@ tracks/2/keys = {
 "method": &"attack_fin"
 }]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("att_spi:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.033333335, 0.10000001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("att_spi/attack_sprite:animation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"swipe"]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("att_spi/attack_sprite:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_r1ydg"]
 resource_name = "walk"
@@ -465,6 +577,28 @@ _data = {
 &"walk": SubResource("Animation_r1ydg")
 }
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_1kkat"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_mko4r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_kk865")
+}],
+"loop": true,
+"name": &"bite",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_7g6ba")
+}],
+"loop": true,
+"name": &"swipe",
+"speed": 5.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bqwmm"]
 size = Vector2(25, 30)
 
@@ -476,6 +610,8 @@ motion_mode = 1
 script = ExtResource("1_ttamq")
 speed = 150.0
 attack_dmg = 8.0
+
+[node name="player_ui" parent="." unique_id=109338454 instance=ExtResource("2_jukwj")]
 
 [node name="vul" type="Timer" parent="." unique_id=538218010]
 one_shot = true
@@ -504,6 +640,14 @@ libraries/ = SubResource("AnimationLibrary_2jb0p")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1583934449]
 zoom = Vector2(4, 4)
+
+[node name="att_spi" type="Node2D" parent="." unique_id=1485697505]
+visible = false
+
+[node name="attack_sprite" type="AnimatedSprite2D" parent="att_spi" unique_id=1529353009]
+sprite_frames = SubResource("SpriteFrames_1kkat")
+animation = &"swipe"
+offset = Vector2(9.61, 0)
 
 [node name="swipe" type="Area2D" parent="." unique_id=1015616514]
 collision_layer = 5

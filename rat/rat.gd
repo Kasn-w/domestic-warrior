@@ -33,8 +33,12 @@ var knock_dir: Vector2
 var knock_s: float = 100
 var is_stun: bool = false
 
-var is_drying = false
+var is_drying: bool = false
+var see: bool = false
 
+func _ready() -> void:
+	set_process(false)
+	
 func setup(_hp: float, _speed: float, _aggressive:int = 1):
 	hp = _hp
 	max_hp = hp
@@ -44,6 +48,11 @@ func setup(_hp: float, _speed: float, _aggressive:int = 1):
 	act_t = Global.aggresion[aggressive]["act_t"]
 	
 func _process(delta: float) -> void:
+	if !see:
+		if animation.is_playing():
+			animation.stop()
+		return
+	
 	if not is_instance_valid(player):
 		player = get_tree().get_nodes_in_group("player")[0]
 		return
@@ -115,7 +124,6 @@ func get_hit(dmg:float, modi:String = "s", _knock_s = knock_s):
 	
 	hp -= dmg
 	if modi == "s":
-		_on_blink_timeout()
 		animation.stop()
 		animation.play("RESET")
 		is_stun = true
@@ -138,7 +146,7 @@ func sprite_flip():
 	is_flip = false
 
 func think_start():
-	thinking.start(randf_range(act_t-0.8 ,act_t+1))
+	thinking.start(randf_range(think_t-0.8 ,think_t+1))
 
 func act_start():
 	act.start(randf_range(act_t-3 ,act_t))
@@ -179,7 +187,7 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 		if body.is_in_group("player"):
 			is_thinking = true
 			thinking.stop()
-			thinking.start(randf_range(think_t / 5, think_t / 2))
+			thinking.start(randf_range(think_t / 10, think_t / 5))
 
 
 func _on_hit_box_body_entered(body: Node2D) -> void:
@@ -201,3 +209,19 @@ func _super_dead():
 	if (hp < (-max_hp * 2)):
 		is_drying = true
 		animation.play("down")
+
+func _on_see_range_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and !see:
+		see = true
+		animation.play("notice")
+		await animation.animation_finished
+		set_process(true)
+		_on_thinking_timeout()
+
+func _on_unsee_range_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		set_process(false)
+		see = false
+
+func _dead_soul():
+	Global.rat_soul += 1

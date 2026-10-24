@@ -332,6 +332,20 @@ tracks/4/keys = {
 "method": &"queue_free"
 }]
 }
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.76666665),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_dead_soul"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_8og6e"]
 resource_name = "getUP"
@@ -428,6 +442,46 @@ tracks/3/keys = {
 "args": [],
 "method": &"_hit_end"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_pebjw"]
+resource_name = "notice"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ani_sprite/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.008333334),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ani_sprite/AnimatedSprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.008333334, 0.20000002, 0.40000004, 0.6333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -4.97), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ani_sprite/AnimatedSprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.008333334, 0.20000002, 0.40000004, 0.6333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.52, 1.44), Vector2(1.135, 0.75), Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_vciox"]
@@ -546,6 +600,7 @@ _data = {
 &"down": SubResource("Animation_mvcb4"),
 &"getUP": SubResource("Animation_8og6e"),
 &"get_hit": SubResource("Animation_xprbi"),
+&"notice": SubResource("Animation_pebjw"),
 &"start": SubResource("Animation_vciox"),
 &"walk": SubResource("Animation_xaegx")
 }
@@ -558,6 +613,12 @@ radius = 5.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vvfaw"]
 radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xaegx"]
+radius = 232.4844
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vciox"]
+radius = 118.004234
 
 [node name="rat" type="Node2D" unique_id=736146869 groups=["rat"]]
 script = ExtResource("1_sa6f2")
@@ -600,12 +661,27 @@ position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_5nbdk")
 
 [node name="attack_range" type="Area2D" parent="." unique_id=1783891040]
+visible = false
+monitorable = false
 script = ExtResource("4_vvfaw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range" unique_id=769501517]
-visible = false
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_vvfaw")
+
+[node name="unsee_range" type="Area2D" parent="." unique_id=1307123172]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="unsee_range" unique_id=1593973842]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_xaegx")
+
+[node name="see_range" type="Area2D" parent="." unique_id=984986474]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="see_range" unique_id=1413920913]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_vciox")
 
 [connection signal="timeout" from="thinking" to="." method="_on_thinking_timeout"]
 [connection signal="timeout" from="act" to="." method="_on_act_timeout"]
@@ -613,3 +689,6 @@ shape = SubResource("CircleShape2D_vvfaw")
 [connection signal="a_get_hit" from="hit_box" to="." method="_on_hit_box_a_get_hit"]
 [connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
 [connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="unsee_range" to="." method="_on_unsee_range_body_exited"]
+[connection signal="body_entered" from="see_range" to="." method="_on_see_range_body_entered"]
+[connection signal="body_exited" from="see_range" to="." method="_on_see_range_body_exited"]

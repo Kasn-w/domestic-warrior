@@ -1,13 +1,17 @@
 extends CharacterBody2D
 
+
+@onready var attack_sprite: Node2D = $att_spi
 @onready var animation: AnimationPlayer = $AnimationPlayer
 @onready var ani_sprite: Node2D = $ani_sprite
 @onready var sprite: AnimatedSprite2D = $ani_sprite/AnimatedSprite2D
 @onready var blink: Timer = $blink
 @onready var idel: Timer = $idel
 @onready var dodge_t: Timer = $dodge
+@onready var cam: Camera2D = $Camera2D
 
-@export var hp = 9
+@export var max_hp:int = 9
+var hp: int
 @export var speed = 300.0
 @export var attack_dmg: float = 10
 
@@ -31,12 +35,16 @@ var bite_x: float = 0
 var bite_y: float = 0
 
 var is_vul: bool = false
-@export var vul_t: float = 1.5
+@export var vul_t: float = 1
 @onready var vul: Timer = $vul
 
 var knockback: bool = false
 var knock_dir: Vector2
 var knock_s: float = 300
+
+func _ready() -> void:
+	cam_disable()
+	hp = max_hp
 
 func _unhandled_input(event: InputEvent) -> void:
 	if !knockback:
@@ -119,9 +127,11 @@ func sprite_flip():
 	var tween = create_tween()
 	tween.tween_property(ani_sprite, "scale:x", 0, 0.2)
 	if (sprite.flip_h):
+		attack_sprite.rotation_degrees = 0
 		swipe_a.rotation_degrees = 0
 		bite_a.rotation_degrees = 0
 	else:
+		attack_sprite.rotation_degrees = 180
 		swipe_a.rotation_degrees = 180
 		bite_a.rotation_degrees = 180
 	await tween.finished
@@ -190,6 +200,7 @@ func attack_fin():
 
 func get_hit(knockback_dir: Vector2, _knock_s = knock_s):
 	if !is_vul and !is_dodge:
+		frame_freeze(0.08)
 		is_vul = true
 		vul.start(vul_t)
 		hp -= 1
@@ -208,4 +219,31 @@ func be_no_vul():
 func check_bite():
 	for i in bite_a.get_overlapping_areas():
 		if i.is_in_group("rat"):
+			frame_freeze(0.1)
 			i.get_hit(attack_dmg, 150)
+
+func enter_hub():
+	full_heal()
+	
+func full_heal():
+	hp = max_hp
+
+func frame_freeze(duration: float) -> void:
+	if Engine.time_scale == 0.0:
+		return
+		
+	Engine.time_scale = 0.0
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = 1.0
+
+func cam_toggle():
+	if cam.enabled:
+		cam_disable()
+	else:
+		cam_enable()
+	
+func cam_disable():
+	cam.enabled = false
+
+func cam_enable():
+	cam.enabled = true

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bfn6xdmfil3np"]
+
+[ext_resource type="Script" uid="uid://bunr74b2vfv7d" path="res://level/hub_a.gd" id="1_rclr7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4oeja"]
+
+[node name="hub" type="Area2D" unique_id=1783957858]
+script = ExtResource("1_rclr7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1044009452]
+shape = SubResource("RectangleShape2D_4oeja")
+debug_color = Color(0.22903723, 0.6382994, 0, 0.41960785)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

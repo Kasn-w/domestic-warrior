@@ -21,7 +21,7 @@ func _process(delta: float) -> void:
 func spaw_rat(_hp: float = 5.0, _speed: float = 20.0, _agg: float = 1):
 	var create = rat.instantiate()
 	var speed: float = randf_range(10,40)
-	create.setup(_hp,_speed,_agg)
+	create.setup(_hp,_speed,randi_range(0, 2))
 	
 	all_rat.add_child(create)
 	create.global_position = Vector2(149,96)
