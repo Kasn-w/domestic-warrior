@@ -1,0 +1,258 @@
+[gd_scene format=3 uid="uid://dh1tydhd1nda"]
+
+[ext_resource type="Script" uid="uid://bqm6q3oasso5b" path="res://rat/rat.gd" id="1_sa6f2"]
+[ext_resource type="Texture2D" uid="uid://bdjejxkidmtgn" path="res://sprite/enchant_0003_rat.png" id="2_vvfaw"]
+[ext_resource type="Texture2D" uid="uid://cqxet76hdgrqo" path="res://sprite/sprite_0006_rat-copy.png" id="3_vciox"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xaegx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vvfaw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_vciox")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_sa6f2"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ani_sprite/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ani_sprite/AnimatedSprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ani_sprite/AnimatedSprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ani_sprite/AnimatedSprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vvfaw"]
+resource_name = "attack"
+length = 0.53333336
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ani_sprite/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ani_sprite/AnimatedSprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ani_sprite/AnimatedSprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.19999997, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.485, 1.29), Vector2(1.065, 0.665), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ani_sprite/AnimatedSprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.99994534, 0.4255371, 0.39267904, 1), Color(0.99994534, 0.4255371, 0.39267904, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vciox"]
+resource_name = "attack"
+length = 0.36666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ani_sprite/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ani_sprite/AnimatedSprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.008333334),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ani_sprite/AnimatedSprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.008333334, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.485, 1.29)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ani_sprite/AnimatedSprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.99994534, 0.4255371, 0.39267904, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xaegx"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ani_sprite/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.008333334, 0.20000002, 0.40000004, 0.6, 0.8000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.11344640137963143, 0.0, -0.11344640137963143, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ani_sprite/AnimatedSprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.008333334, 0.20000002, 0.40000004, 0.6, 0.8000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -1.315), Vector2(0, 0), Vector2(0, -1.315), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ani_sprite/AnimatedSprite2D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.008333334, 0.20000002, 0.40000004, 0.6, 0.8000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.935, 1.105), Vector2(1, 1), Vector2(0.935, 1.105), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5nbdk"]
+_data = {
+&"RESET": SubResource("Animation_sa6f2"),
+&"attack": SubResource("Animation_vvfaw"),
+&"start": SubResource("Animation_vciox"),
+&"walk": SubResource("Animation_xaegx")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5nbdk"]
+radius = 4.0
+
+[node name="rat" type="Node2D" unique_id=736146869]
+script = ExtResource("1_sa6f2")
+
+[node name="act" type="Timer" parent="." unique_id=721441724]
+wait_time = 0.5
+autostart = true
+
+[node name="blink" type="Timer" parent="." unique_id=1459544707]
+autostart = true
+
+[node name="ani_sprite" type="Node2D" parent="." unique_id=698290621]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ani_sprite" unique_id=570244079]
+sprite_frames = SubResource("SpriteFrames_xaegx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=581941440]
+libraries/ = SubResource("AnimationLibrary_5nbdk")
+
+[node name="hit_box" type="Area2D" parent="." unique_id=1673787415]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box" unique_id=967405648]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_5nbdk")
+
+[node name="getaway_box" type="Area2D" parent="." unique_id=863539357]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="getaway_box" unique_id=1527427952]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_5nbdk")
+
+[connection signal="timeout" from="blink" to="." method="_on_blink_timeout"]

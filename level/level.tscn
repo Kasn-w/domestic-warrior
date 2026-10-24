@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cv3xcxfheatik"]
 
+[ext_resource type="PackedScene" uid="uid://dh1tydhd1nda" path="res://rat/rat.tscn" id="1_5gx2l"]
 [ext_resource type="PackedScene" uid="uid://dxnok0kax3dmh" path="res://cat/player.tscn" id="1_7lnir"]
 
 [sub_resource type="Gradient" id="Gradient_yy828"]
@@ -9,6 +10,12 @@ colors = PackedColorArray(0.47058824, 0.654902, 0.63529414, 1, 0.47058824, 0.654
 gradient = SubResource("Gradient_yy828")
 
 [node name="level" type="Node2D" unique_id=484725990]
+
+[node name="rat" parent="." unique_id=736146869 instance=ExtResource("1_5gx2l")]
+position = Vector2(16.295, 0)
+
+[node name="rat2" parent="." unique_id=957860099 instance=ExtResource("1_5gx2l")]
+position = Vector2(18.07, -2.69)
 
 [node name="player" parent="." unique_id=169657093 instance=ExtResource("1_7lnir")]
 

@@ -22,7 +22,7 @@ var dodge_cooldown: float = 1
 var is_attack: bool = false
 var attack_intent: bool = false
 var attack_hold_t: float = 0
-var attack_hold: float = 0.5
+var attack_hold: float = 0.3
 var is_bite: bool = false
 var bite_x: float = 0
 var bite_y: float = 0
@@ -159,5 +159,6 @@ func attack_fin():
 	bite_y = 0
 	attack_intent = false
 	attack_hold_t = 0
-	animation.stop()
 	animation.play("RESET")
+	animation.stop()
+	
