@@ -2,6 +2,27 @@
 
 [ext_resource type="PackedScene" uid="uid://dxnok0kax3dmh" path="res://cat/player.tscn" id="1_7lnir"]
 [ext_resource type="Script" uid="uid://benmbgqo2qelh" path="res://level/level.gd" id="1_qohg2"]
+[ext_resource type="PackedScene" uid="uid://gdj15ea3ciqi" path="res://level/wall.tscn" id="3_qohg2"]
+
+[sub_resource type="Gradient" id="Gradient_qohg2"]
+colors = PackedColorArray(0.21428728, 0.12897798, 0, 1, 0.21960784, 0.13725491, 0.019607844, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vkbyq"]
+gradient = SubResource("Gradient_qohg2")
+
+[sub_resource type="Gradient" id="Gradient_ktfr2"]
+colors = PackedColorArray(0.5686275, 0.37254903, 0, 1, 0.9999997, 0.69240123, 0.17703229, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_44x8d"]
+gradient = SubResource("Gradient_ktfr2")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qohg2"]
+frequency = 0.532
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vkbyq"]
+width = 1001
+height = 1536
+noise = SubResource("FastNoiseLite_qohg2")
 
 [sub_resource type="Gradient" id="Gradient_yy828"]
 colors = PackedColorArray(0.47058824, 0.654902, 0.63529414, 1, 0.47058824, 0.654902, 0.63529414, 1)
@@ -18,11 +39,238 @@ y_sort_enabled = true
 
 [node name="player" parent="." unique_id=169657093 instance=ExtResource("1_7lnir")]
 y_sort_enabled = true
+position = Vector2(145, -106)
+
+[node name="wall" type="Node2D" parent="." unique_id=698216055]
+metadata/_edit_lock_ = true
+
+[node name="wall_side2" type="Node2D" parent="wall" unique_id=99510971]
+position = Vector2(-142.32, 1367)
+scale = Vector2(0.776, 1000)
+
+[node name="wall_sp" type="Sprite2D" parent="wall/wall_side2" unique_id=725099857]
+z_index = -1
+position = Vector2(0, 0.013)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp2" type="Sprite2D" parent="wall/wall_side2" unique_id=565414980]
+z_index = -1
+position = Vector2(823.2892, 0.021734377)
+scale = Vector2(0.9949658, 1)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_s" type="Sprite2D" parent="wall/wall_side2" unique_id=1640820721]
+z_index = -3
+position = Vector2(160.0387, -0.0027312636)
+scale = Vector2(0.26037058, 1)
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="wall_s2" type="Sprite2D" parent="wall/wall_side2" unique_id=2138199255]
+z_index = -3
+position = Vector2(660.71674, 0.019003054)
+rotation = -3.1415927
+scale = Vector2(0.27581495, 1)
+skew = 8.249283e-05
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="wall" parent="wall/wall_side2" unique_id=742331922 instance=ExtResource("3_qohg2")]
+position = Vector2(183.41687, -0.053260446)
+scale = Vector2(1.2887638, 0.0464254)
+
+[node name="wall2" parent="wall/wall_side2" unique_id=1448539633 instance=ExtResource("3_qohg2")]
+position = Vector2(636.65045, -0.031526074)
+scale = Vector2(1.2887638, 0.044943668)
+
+[node name="wall_side3" type="Node2D" parent="wall" unique_id=656711141]
+position = Vector2(-142.32, 477.00012)
+scale = Vector2(0.776, 1000)
+
+[node name="wall_sp" type="Sprite2D" parent="wall/wall_side3" unique_id=1973942635]
+z_index = -1
+position = Vector2(0, 0.013)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp2" type="Sprite2D" parent="wall/wall_side3" unique_id=1305636354]
+z_index = -1
+position = Vector2(823.2892, 0.010734285)
+scale = Vector2(0.9949658, 1)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_s" type="Sprite2D" parent="wall/wall_side3" unique_id=1535538037]
+z_index = -3
+position = Vector2(160.0387, -0.0020001235)
+scale = Vector2(0.26037058, 1)
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="wall_s2" type="Sprite2D" parent="wall/wall_side3" unique_id=1643950874]
+z_index = -3
+position = Vector2(660.71674, 0.008002962)
+rotation = -3.1415927
+scale = Vector2(0.27581495, 1)
+skew = 8.249283e-05
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="wall" parent="wall/wall_side3" unique_id=1059235437 instance=ExtResource("3_qohg2")]
+position = Vector2(183.41687, -0.038000133)
+scale = Vector2(1.2887638, 0.0464254)
+
+[node name="wall2" parent="wall/wall_side3" unique_id=714414448 instance=ExtResource("3_qohg2")]
+position = Vector2(636.65045, -0.042526163)
+scale = Vector2(1.2887638, 0.044943668)
+
+[node name="wall3" type="Node2D" parent="wall" unique_id=695661566]
+position = Vector2(0, -330)
+
+[node name="wall_sp3" type="Sprite2D" parent="wall/wall3" unique_id=1975419801]
+z_index = -1
+position = Vector2(283, 2285.7202)
+rotation = -1.5707964
+scale = Vector2(0.63, 1000)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_s3" type="Sprite2D" parent="wall/wall3" unique_id=674828139]
+z_index = -2
+position = Vector2(285.00003, 2161.72)
+rotation = -1.5707964
+scale = Vector2(0.365, 1000)
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="wall3" parent="wall/wall3" unique_id=1790743363 instance=ExtResource("3_qohg2")]
+position = Vector2(282, 2120.72)
+rotation = 1.5707964
+scale = Vector2(1, 38.82)
+
+[node name="wall_sp4" type="Sprite2D" parent="wall" unique_id=1548237743]
+z_index = -1
+position = Vector2(-99.000015, -16.03999)
+rotation = -1.5707964
+scale = Vector2(0.07, 500)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp7" type="Sprite2D" parent="wall" unique_id=1672301973]
+z_index = -1
+position = Vector2(365, -148)
+scale = Vector2(0.07, 250)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp9" type="Sprite2D" parent="wall" unique_id=1395583617]
+z_index = -1
+position = Vector2(515, -148)
+scale = Vector2(1.13, 250)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp10" type="Sprite2D" parent="wall" unique_id=1203189139]
+z_index = -1
+position = Vector2(-185, -148)
+scale = Vector2(1.13, 250)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp8" type="Sprite2D" parent="wall" unique_id=1703262665]
+z_index = -1
+position = Vector2(-33, -148)
+scale = Vector2(0.07, 250)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall4" parent="wall" unique_id=82076142 instance=ExtResource("3_qohg2")]
+position = Vector2(-34, -133)
+scale = Vector2(1, 11.17)
+
+[node name="wall5" parent="wall" unique_id=1046056927 instance=ExtResource("3_qohg2")]
+position = Vector2(366, -133)
+scale = Vector2(1, 11.17)
+
+[node name="wall6" parent="wall" unique_id=940517031 instance=ExtResource("3_qohg2")]
+position = Vector2(-236, -16.03999)
+rotation = 1.5707964
+scale = Vector2(1, 38.82)
+
+[node name="wall8" parent="wall" unique_id=498654755 instance=ExtResource("3_qohg2")]
+position = Vector2(-236, -16.03999)
+rotation = 1.5707964
+scale = Vector2(1, 38.82)
+
+[node name="wall_sp5" type="Sprite2D" parent="wall" unique_id=1154180724]
+z_index = -1
+position = Vector2(447, -17)
+rotation = -1.5707964
+scale = Vector2(0.07, 500)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall7" parent="wall" unique_id=1493204608 instance=ExtResource("3_qohg2")]
+position = Vector2(585, -13.999998)
+rotation = 1.5707964
+scale = Vector2(1.235, 38.82)
+
+[node name="wall" type="Node2D" parent="wall" unique_id=1861128584]
+position = Vector2(-282, -158.04)
+rotation = 1.5707964
+scale = Vector2(1, 38.82)
+
+[node name="wall_sp9" type="Sprite2D" parent="wall/wall" unique_id=1821252408]
+z_index = -1
+position = Vector2(-123.00003, -19.835136)
+rotation = 3.1415927
+scale = Vector2(0.07, 12.879959)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall10" parent="wall/wall" unique_id=1256575939 instance=ExtResource("3_qohg2")]
+position = Vector2(-83.96005, -23.390007)
+scale = Vector2(4.87, 1)
+
+[node name="wall_s3" type="Sprite2D" parent="wall/wall" unique_id=2130529581]
+z_index = -2
+position = Vector2(-83.96005, -26.326637)
+rotation = 3.1415927
+scale = Vector2(0.365, 25.759918)
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="wall2" type="Node2D" parent="wall" unique_id=1023858225]
+position = Vector2(-1418, -158.04)
+rotation = 1.5707964
+scale = Vector2(1, 38.82)
+
+[node name="wall_sp9" type="Sprite2D" parent="wall/wall2" unique_id=1108585514]
+z_index = -1
+position = Vector2(-123.00005, -32.792374)
+rotation = 3.1415927
+scale = Vector2(0.07, 12.879959)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall10" parent="wall/wall2" unique_id=694062905 instance=ExtResource("3_qohg2")]
+position = Vector2(-84.96006, -29.211748)
+scale = Vector2(4.87, 1)
+
+[node name="wall_s3" type="Sprite2D" parent="wall/wall2" unique_id=2043384069]
+z_index = -2
+position = Vector2(-83.96005, -26.326637)
+rotation = 3.1415927
+scale = Vector2(0.365, 25.759918)
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="bg2" type="Sprite2D" parent="." unique_id=1553888701]
+modulate = Color(1.353256, 1.353256, 1.353256, 0.019607844)
+light_mask = 0
+visibility_layer = 512
+z_index = -4
+position = Vector2(163, 627.00006)
+scale = Vector2(1.825, 1.595)
+texture = SubResource("NoiseTexture2D_vkbyq")
+metadata/_edit_lock_ = true
 
 [node name="bg" type="Sprite2D" parent="." unique_id=1111359736]
 light_mask = 0
 visibility_layer = 512
-z_index = -1
-position = Vector2(639.25, 360.875)
-scale = Vector2(5.044922, 732.25)
+z_index = -5
+position = Vector2(276, 1097.9375)
+scale = Vector2(2.7529294, 2058.125)
 texture = SubResource("GradientTexture1D_7lnir")
+metadata/_edit_lock_ = true
+
+[node name="bg3" type="Sprite2D" parent="." unique_id=500748589]
+light_mask = 0
+visibility_layer = 512
+z_index = -5
+position = Vector2(170.00002, -66.16399)
+scale = Vector2(1.5879354, -279.67203)
+texture = SubResource("GradientTexture1D_7lnir")
+metadata/_edit_lock_ = true

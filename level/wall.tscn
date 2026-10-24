@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://gdj15ea3ciqi"]
+
+[ext_resource type="Script" uid="uid://2084i3w5ai8r" path="res://level/wall.gd" id="1_kyd43"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7svay"]
+
+[node name="wall" type="StaticBody2D" unique_id=1059235437]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1106940002]
+shape = SubResource("RectangleShape2D_7svay")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1644917753]
+script = ExtResource("1_kyd43")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=296879492]
+shape = SubResource("RectangleShape2D_7svay")
+
+[connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]

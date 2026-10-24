@@ -138,7 +138,10 @@ func sprite_flip():
 	is_flip = false
 
 func think_start():
-	thinking.start(randf_range(think_t-0.3,think_t+0.3))
+	thinking.start(randf_range(act_t-0.8 ,act_t+1))
+
+func act_start():
+	act.start(randf_range(act_t-3 ,act_t))
 	
 func _on_blink_timeout() -> void:
 	sprite.frame = 1
@@ -163,7 +166,7 @@ func _on_thinking_timeout() -> void:
 		else:
 			is_thinking = false
 			action = "walk"
-			act.start(act_t)
+			act_start()
 
 func start_fin():
 	is_thinking = false
@@ -195,6 +198,6 @@ func _hit_end():
 		animation.play("RESET")
 
 func _super_dead():
-	if (hp < (-max_hp * 1.5)):
+	if (hp < (-max_hp * 2)):
 		is_drying = true
 		animation.play("down")

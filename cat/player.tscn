@@ -503,7 +503,7 @@ shape = SubResource("CircleShape2D_51li8")
 libraries/ = SubResource("AnimationLibrary_2jb0p")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1583934449]
-zoom = Vector2(5, 5)
+zoom = Vector2(4, 4)
 
 [node name="swipe" type="Area2D" parent="." unique_id=1015616514]
 collision_layer = 5
