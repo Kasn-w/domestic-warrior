@@ -2,10 +2,37 @@
 
 [ext_resource type="PackedScene" uid="uid://dxnok0kax3dmh" path="res://cat/player.tscn" id="1_7lnir"]
 [ext_resource type="Script" uid="uid://benmbgqo2qelh" path="res://level/level.gd" id="1_qohg2"]
+[ext_resource type="FontFile" uid="uid://dynaahmrcklk7" path="res://font/Coolville.ttf" id="2_ivpvi"]
 [ext_resource type="PackedScene" uid="uid://bfn6xdmfil3np" path="res://level/hub_a.tscn" id="2_vkbyq"]
 [ext_resource type="Script" uid="uid://dsw6f6cbpg67y" path="res://level/cam_en.gd" id="3_ktfr2"]
 [ext_resource type="PackedScene" uid="uid://gdj15ea3ciqi" path="res://level/wall.tscn" id="3_qohg2"]
+[ext_resource type="Texture2D" uid="uid://ck223bwgnqgqh" path="res://sprite/ui/arrow.png" id="5_0v1st"]
 [ext_resource type="PackedScene" uid="uid://bk04ersfemi0y" path="res://level/shrine.tscn" id="6_44x8d"]
+[ext_resource type="Script" uid="uid://c7akaq01lrc6o" path="res://spwanner.gd" id="9_cw150"]
+[ext_resource type="PackedScene" uid="uid://dv2gt3gwncg5j" path="res://collect/heart.tscn" id="9_xii2b"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6gtgk"]
+font = ExtResource("2_ivpvi")
+font_size = 10
+font_color = Color(0, 0, 0, 1)
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0v1st"]
+font = ExtResource("2_ivpvi")
+font_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ivpvi"]
+font = ExtResource("2_ivpvi")
+font_size = 10
+font_color = Color(0.80024433, 0.075741075, 5.7756904e-07, 1)
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cw150"]
+font = ExtResource("2_ivpvi")
+font_size = 10
+font_color = Color(0.8, 0.07450981, 0, 1)
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44x8d"]
 size = Vector2(155, 1.5410743)
@@ -22,12 +49,15 @@ colors = PackedColorArray(0.5686275, 0.37254903, 0, 1, 0.9999997, 0.69240123, 0.
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_44x8d"]
 gradient = SubResource("Gradient_ktfr2")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6gtgk"]
+size = Vector2(157, 146)
+
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_qohg2"]
 frequency = 0.532
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vkbyq"]
 width = 1001
-height = 1536
+height = 2300
 noise = SubResource("FastNoiseLite_qohg2")
 
 [sub_resource type="Gradient" id="Gradient_yy828"]
@@ -46,13 +76,105 @@ gradient = SubResource("Gradient_44x8d")
 y_sort_enabled = true
 script = ExtResource("1_qohg2")
 
+[node name="rat_king" type="Label" parent="." unique_id=1527071033]
+offset_left = 154.0
+offset_top = -209.0
+offset_right = 190.0
+offset_bottom = -201.0
+text = "RAT king"
+label_settings = SubResource("LabelSettings_6gtgk")
+
+[node name="rat_den" type="Label" parent="." unique_id=1554335919]
+offset_left = 157.0
+offset_top = -31.0
+offset_right = 193.0
+offset_bottom = -23.0
+text = "rat den"
+label_settings = SubResource("LabelSettings_6gtgk")
+
+[node name="welcome" type="Label" parent="." unique_id=1993563465]
+offset_left = 196.0
+offset_top = -187.0
+offset_right = 273.0
+offset_bottom = -179.0
+text = "Welcome !!"
+label_settings = SubResource("LabelSettings_0v1st")
+
+[node name="intro" type="Label" parent="." unique_id=425176304]
+offset_left = 195.0
+offset_top = -175.0
+offset_right = 297.0
+offset_bottom = -156.0
+text = "Your task is simple"
+label_settings = SubResource("LabelSettings_0v1st")
+
+[node name="intro2" type="Label" parent="." unique_id=1675497758]
+offset_left = 195.0
+offset_top = -175.0
+offset_right = 297.0
+offset_bottom = -156.0
+text = "
+ELIMENATE the rat KING"
+label_settings = SubResource("LabelSettings_ivpvi")
+
+[node name="control" type="Label" parent="." unique_id=421036832]
+offset_left = 195.0
+offset_top = -140.0
+offset_right = 297.0
+offset_bottom = -77.0
+text = "     -control-
+wasd   - movement
+M_left - claw swipe
+hold m-left + wasd
+               - bite
+M_right - dash"
+label_settings = SubResource("LabelSettings_0v1st")
+
+[node name="den_exp" type="Label" parent="." unique_id=150108538]
+offset_left = 202.0
+offset_top = -46.0
+offset_right = 304.0
+offset_bottom = -27.0
+text = "the deeper you go
+the better thing are!"
+label_settings = SubResource("LabelSettings_0v1st")
+horizontal_alignment = 1
+
+[node name="shrin_exp" type="Label" parent="." unique_id=410797951]
+offset_left = 42.0
+offset_top = -180.0
+offset_right = 122.0
+offset_bottom = -161.0
+text = "The circle 
+demand rat souls"
+label_settings = SubResource("LabelSettings_0v1st")
+horizontal_alignment = 1
+
+[node name="shrin_exp2" type="Label" parent="." unique_id=1603614661]
+offset_left = 51.0
+offset_top = -88.0
+offset_right = 116.0
+offset_bottom = -80.0
+text = "No carry over"
+label_settings = SubResource("LabelSettings_cw150")
+
 [node name="shrine" parent="." unique_id=818951730 instance=ExtResource("6_44x8d")]
-position = Vector2(80.00001, -105.00001)
+position = Vector2(82.00001, -120)
 scale = Vector2(1.2, 1.2)
 
 [node name="player" parent="." unique_id=169657093 instance=ExtResource("1_7lnir")]
 y_sort_enabled = true
 position = Vector2(145, -106)
+max_hp = 1
+
+[node name="Arrow" type="Sprite2D" parent="." unique_id=1602083914]
+position = Vector2(170, -216)
+texture = ExtResource("5_0v1st")
+
+[node name="Arrow2" type="Sprite2D" parent="." unique_id=704028066]
+position = Vector2(173, -16)
+rotation = 3.1415927
+texture = ExtResource("5_0v1st")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2052830653]
 position = Vector2(164, -120)
@@ -79,6 +201,7 @@ shape = SubResource("RectangleShape2D_44x8d")
 debug_color = Color(0.9713846, 0.08011768, 0.38474917, 0.41960785)
 
 [node name="hub" parent="." unique_id=1783957858 instance=ExtResource("2_vkbyq")]
+visible = false
 position = Vector2(167, -113.99999)
 scale = Vector2(21.45353, -9.050441)
 
@@ -135,7 +258,6 @@ metadata/_edit_lock_ = true
 [node name="wall_side3" type="Node2D" parent="wall" unique_id=656711141]
 position = Vector2(-142.32, 477.00012)
 scale = Vector2(0.776, 1000)
-metadata/_edit_lock_ = true
 
 [node name="wall_sp" type="Sprite2D" parent="wall/wall_side3" unique_id=1973942635]
 z_index = -1
@@ -176,8 +298,51 @@ position = Vector2(636.65045, -0.042526163)
 scale = Vector2(1.2887638, 0.044943668)
 metadata/_edit_lock_ = true
 
+[node name="wall_side4" type="Node2D" parent="wall" unique_id=2121687042]
+position = Vector2(-142.32, 2253)
+scale = Vector2(0.776, 1000)
+
+[node name="wall_sp" type="Sprite2D" parent="wall/wall_side4" unique_id=1889293811]
+z_index = -1
+position = Vector2(0, 0.013)
+texture = SubResource("GradientTexture1D_vkbyq")
+metadata/_edit_lock_ = true
+
+[node name="wall_sp2" type="Sprite2D" parent="wall/wall_side4" unique_id=1828034149]
+z_index = -1
+position = Vector2(823.2892, 0.010734285)
+scale = Vector2(0.9949658, 1)
+texture = SubResource("GradientTexture1D_vkbyq")
+metadata/_edit_lock_ = true
+
+[node name="wall_s" type="Sprite2D" parent="wall/wall_side4" unique_id=687421723]
+z_index = -3
+position = Vector2(160.0387, -0.0020001235)
+scale = Vector2(0.26037058, 1)
+texture = SubResource("GradientTexture1D_44x8d")
+metadata/_edit_lock_ = true
+
+[node name="wall_s2" type="Sprite2D" parent="wall/wall_side4" unique_id=1906691744]
+z_index = -3
+position = Vector2(660.71674, 0.008002962)
+rotation = -3.1415927
+scale = Vector2(0.27581495, 1)
+skew = 8.249283e-05
+texture = SubResource("GradientTexture1D_44x8d")
+metadata/_edit_lock_ = true
+
+[node name="wall" parent="wall/wall_side4" unique_id=479312560 instance=ExtResource("3_qohg2")]
+position = Vector2(183.41687, -0.038000133)
+scale = Vector2(1.2887638, 0.0464254)
+metadata/_edit_lock_ = true
+
+[node name="wall2" parent="wall/wall_side4" unique_id=1584555671 instance=ExtResource("3_qohg2")]
+position = Vector2(636.65045, -0.042526163)
+scale = Vector2(1.2887638, 0.044943668)
+metadata/_edit_lock_ = true
+
 [node name="wall3" type="Node2D" parent="wall" unique_id=695661566]
-position = Vector2(0, -1339)
+position = Vector2(0, 352)
 
 [node name="wall_sp3" type="Sprite2D" parent="wall/wall3" unique_id=1975419801]
 z_index = -1
@@ -387,12 +552,96 @@ position = Vector2(129.99997, -781)
 scale = Vector2(3.34, 200)
 texture = SubResource("GradientTexture1D_vkbyq")
 
+[node name="heart" parent="." unique_id=1826357930 instance=ExtResource("9_xii2b")]
+position = Vector2(86, 186)
+
+[node name="heart2" parent="." unique_id=538371527 instance=ExtResource("9_xii2b")]
+position = Vector2(174.00002, 815.0001)
+
+[node name="heart3" parent="." unique_id=487074356 instance=ExtResource("9_xii2b")]
+position = Vector2(150, 1620.0001)
+
+[node name="heart4" parent="." unique_id=1686686883 instance=ExtResource("9_xii2b")]
+position = Vector2(165, 2383.0002)
+
+[node name="spwanner_easy" type="Area2D" parent="." unique_id=1050841861]
+position = Vector2(92, 72.99999)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 15.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy" unique_id=382174184]
+position = Vector2(0.5, 7.6293945e-06)
+shape = SubResource("RectangleShape2D_6gtgk")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spwanner_easy" unique_id=2045344277]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner_easy2" type="Area2D" parent="." unique_id=1319272540]
+position = Vector2(256, 72.99999)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 15.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy2" unique_id=1149434679]
+position = Vector2(0.5, 7.6293945e-06)
+shape = SubResource("RectangleShape2D_6gtgk")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spwanner_easy2" unique_id=1308409442]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner_easy3" type="Area2D" parent="." unique_id=1083587024]
+position = Vector2(92, 294)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 15.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy3" unique_id=1055202653]
+position = Vector2(0.5, 7.6293945e-06)
+shape = SubResource("RectangleShape2D_6gtgk")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spwanner_easy3" unique_id=215860398]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner_easy4" type="Area2D" parent="." unique_id=570191026]
+position = Vector2(256, 245)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 15.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy4" unique_id=966927569]
+position = Vector2(0.5, 7.6293945e-06)
+shape = SubResource("RectangleShape2D_6gtgk")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spwanner_easy4" unique_id=1765113820]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
 [node name="bg2" type="Sprite2D" parent="." unique_id=1553888701]
 modulate = Color(1.353256, 1.353256, 1.353256, 0.019607844)
 light_mask = 0
 visibility_layer = 512
 z_index = -4
-position = Vector2(163, 627.00006)
+position = Vector2(163, 868)
 scale = Vector2(1.825, 1.595)
 texture = SubResource("NoiseTexture2D_vkbyq")
 metadata/_edit_lock_ = true
@@ -401,8 +650,8 @@ metadata/_edit_lock_ = true
 light_mask = 0
 visibility_layer = 512
 z_index = -5
-position = Vector2(276, 1097.9375)
-scale = Vector2(2.7529294, 2058.125)
+position = Vector2(276, 1588)
+scale = Vector2(2.753, 3000)
 texture = SubResource("GradientTexture1D_7lnir")
 metadata/_edit_lock_ = true
 
@@ -428,3 +677,7 @@ metadata/_edit_lock_ = true
 [connection signal="body_exited" from="cam" to="cam" method="_on_body_exited"]
 [connection signal="body_entered" from="cam2" to="cam2" method="_on_body_entered"]
 [connection signal="body_exited" from="cam2" to="cam2" method="_on_body_exited"]
+[connection signal="timeout" from="spwanner_easy/Timer" to="spwanner_easy" method="_on_timer_timeout"]
+[connection signal="timeout" from="spwanner_easy2/Timer" to="spwanner_easy2" method="_on_timer_timeout"]
+[connection signal="timeout" from="spwanner_easy3/Timer" to="spwanner_easy3" method="_on_timer_timeout"]
+[connection signal="timeout" from="spwanner_easy4/Timer" to="spwanner_easy4" method="_on_timer_timeout"]

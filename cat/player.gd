@@ -72,6 +72,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			attack_intent = false
 
 func _physics_process(delta: float) -> void:
+	if animation.is_playing() and animation.current_animation == "dead":
+		return
+	
 	var direction1 := Input.get_axis("ui_left", "ui_right")
 	var direction2 := Input.get_axis("ui_up", "ui_down")
 	if direction1:
@@ -114,6 +117,8 @@ func _physics_process(delta: float) -> void:
 			knock_dir = knock_dir.move_toward(Vector2.ZERO, 850 * delta)
 			if knock_dir == Vector2.ZERO:
 				knockback = false
+				if hp <= 0:
+					animation.play("dead")
 		move_and_slide()
 	
 	if !is_dodge and !is_attack:
@@ -206,6 +211,9 @@ func attack_fin():
 	animation.stop()
 
 func get_hit(knockback_dir: Vector2, _knock_s = knock_s):
+	if animation.is_playing() and animation.current_animation == "dead":
+		return
+	
 	if !is_vul and !is_dodge:
 		frame_freeze(0.08)
 		is_vul = true
@@ -226,7 +234,7 @@ func be_no_vul():
 func check_bite():
 	for i in bite_a.get_overlapping_areas():
 		if i.is_in_group("rat"):
-			frame_freeze(0.1)
+			frame_freeze(0.08)
 			i.get_hit(attack_dmg, 150)
 
 func enter_hub():
@@ -243,6 +251,13 @@ func frame_freeze(duration: float) -> void:
 	await get_tree().create_timer(duration, true, false, true).timeout
 	Engine.time_scale = 1.0
 
+func dead():
+	global_position = Vector2(145, -106)
+	Global.rat_soul = 0
+	hp = max_hp
+	Global.cam_lock = true
+	cam_disable()
+	
 func boost():
 	attack_mul += 5
 	if speed_mul < 25:
@@ -261,3 +276,7 @@ func cam_disable():
 
 func cam_enable():
 	cam.enabled = true
+	
+func max_hp_up():
+	max_hp += 2
+	hp = max_hp

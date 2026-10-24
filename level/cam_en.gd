@@ -1,7 +1,14 @@
 extends Area2D
 @export var move: float = 3
 @onready var camera_2d: Camera2D = $"../Camera2D"
+@onready var player: CharacterBody2D = $"../player"
 
+func _process(delta: float) -> void:
+	if Global.cam_lock:
+		camera_2d.enabled = true
+	else:
+		camera_2d.enabled = false
+	
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		if !Global.cam_lock:
@@ -15,3 +22,4 @@ func _on_body_entered(body: Node2D) -> void:
 			camera_2d.enabled = false
 			body.cam_enable()
 			body.global_position[1] += move
+			Global.boost_temp = 0

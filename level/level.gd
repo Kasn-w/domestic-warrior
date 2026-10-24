@@ -4,13 +4,17 @@ const rat = preload("uid://dh1tydhd1nda")
 @onready var all_rat: Node2D = $all_rat
 @onready var player: CharacterBody2D = $player
 @onready var shrine: Node2D = $shrine
+var _start: bool = true
+
+@onready var den_exp: Label = $den_exp
+@onready var shrin_exp: Label = $shrin_exp
 
 var z = 0
 var sprite = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for i in range(100):
-		spaw_rat()
+	#for i in range(100):
+		#spaw_rat()
 	pass
 
 
@@ -20,11 +24,14 @@ func _process(delta: float) -> void:
 		if (Global.boost_temp >= 50):
 			Global.boost_temp -= 50
 			player.boost()
+			if _start:
+				_start = false
+				den_exp.visible = false
+				shrin_exp.visible = false
 			
 		if Global.rat_soul > 0:
 			Global.amount += Global.rat_soul_rate * delta
 			var whole = int(Global.amount)
-			print(Global.rat_soul, " ",whole)
 			if whole > 0:
 				var value = maxi(Global.rat_soul - whole, 0)
 				Global.boost_temp += Global.rat_soul - value
