@@ -5,9 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://bfn6xdmfil3np" path="res://level/hub_a.tscn" id="2_vkbyq"]
 [ext_resource type="Script" uid="uid://dsw6f6cbpg67y" path="res://level/cam_en.gd" id="3_ktfr2"]
 [ext_resource type="PackedScene" uid="uid://gdj15ea3ciqi" path="res://level/wall.tscn" id="3_qohg2"]
+[ext_resource type="PackedScene" uid="uid://bk04ersfemi0y" path="res://level/shrine.tscn" id="6_44x8d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44x8d"]
-size = Vector2(155, 8)
+size = Vector2(155, 1.5410743)
 
 [sub_resource type="Gradient" id="Gradient_qohg2"]
 colors = PackedColorArray(0.21428728, 0.12897798, 0, 1, 0.21960784, 0.13725491, 0.019607844, 1)
@@ -35,9 +36,19 @@ colors = PackedColorArray(0.47058824, 0.654902, 0.63529414, 1, 0.47058824, 0.654
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_7lnir"]
 gradient = SubResource("Gradient_yy828")
 
+[sub_resource type="Gradient" id="Gradient_44x8d"]
+colors = PackedColorArray(0.6551349, 0.8871006, 0.6011747, 1, 0.654902, 0.8862745, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ivpvi"]
+gradient = SubResource("Gradient_44x8d")
+
 [node name="level" type="Node2D" unique_id=484725990]
 y_sort_enabled = true
 script = ExtResource("1_qohg2")
+
+[node name="shrine" parent="." unique_id=818951730 instance=ExtResource("6_44x8d")]
+position = Vector2(80.00001, -105.00001)
+scale = Vector2(1.2, 1.2)
 
 [node name="player" parent="." unique_id=169657093 instance=ExtResource("1_7lnir")]
 y_sort_enabled = true
@@ -49,15 +60,18 @@ zoom = Vector2(3.5, 3.5)
 
 [node name="cam" type="Area2D" parent="." unique_id=472292764]
 script = ExtResource("3_ktfr2")
+move = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cam" unique_id=1819343096]
-position = Vector2(174, -19)
+position = Vector2(175, -17)
+scale = Vector2(0.792, 1.826)
 shape = SubResource("RectangleShape2D_44x8d")
 debug_color = Color(0.9713846, 0.08011768, 0.38474917, 0.41960785)
 
 [node name="cam2" type="Area2D" parent="." unique_id=135973058]
 position = Vector2(0, -189)
 script = ExtResource("3_ktfr2")
+move = -10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cam2" unique_id=1790972410]
 position = Vector2(174, -19)
@@ -163,8 +177,7 @@ scale = Vector2(1.2887638, 0.044943668)
 metadata/_edit_lock_ = true
 
 [node name="wall3" type="Node2D" parent="wall" unique_id=695661566]
-position = Vector2(0, -330)
-metadata/_edit_lock_ = true
+position = Vector2(0, -1339)
 
 [node name="wall_sp3" type="Sprite2D" parent="wall/wall3" unique_id=1975419801]
 z_index = -1
@@ -193,43 +206,83 @@ scale = Vector2(0.07, 500)
 texture = SubResource("GradientTexture1D_vkbyq")
 metadata/_edit_lock_ = true
 
-[node name="wall_sp7" type="Sprite2D" parent="wall" unique_id=1672301973]
-z_index = -1
-position = Vector2(310.96, -148)
-scale = Vector2(0.07, 250)
-texture = SubResource("GradientTexture1D_vkbyq")
+[node name="wakk_side2" type="Node2D" parent="wall" unique_id=950090025]
+position = Vector2(311.96, -133)
+scale = Vector2(1, 11.17)
 metadata/_edit_lock_ = true
 
-[node name="wall_sp9" type="Sprite2D" parent="wall" unique_id=1395583617]
+[node name="wall_sp7" type="Sprite2D" parent="wall/wakk_side2" unique_id=1672301973]
 z_index = -1
-position = Vector2(460.96, -148)
-scale = Vector2(1.13, 250)
+position = Vector2(-1, -1.3428822)
+scale = Vector2(0.07, 22.381378)
 texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp9" type="Sprite2D" parent="wall/wakk_side2" unique_id=1395583617]
+z_index = -1
+position = Vector2(149, -1.3428822)
+scale = Vector2(1.13, 22.381378)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall5" parent="wall/wakk_side2" unique_id=1046056927 instance=ExtResource("3_qohg2")]
+
+[node name="wakk_side3" type="Node2D" parent="wall" unique_id=387881564]
+position = Vector2(312, -463)
+scale = Vector2(1, 17.93)
 metadata/_edit_lock_ = true
 
-[node name="wall_sp10" type="Sprite2D" parent="wall" unique_id=1203189139]
+[node name="wall_sp7" type="Sprite2D" parent="wall/wakk_side3" unique_id=1392111577]
 z_index = -1
-position = Vector2(-133.35999, -148)
-scale = Vector2(1.13, 250)
+position = Vector2(-1, -1.3428822)
+scale = Vector2(0.07, 22.381378)
 texture = SubResource("GradientTexture1D_vkbyq")
-metadata/_edit_lock_ = true
 
-[node name="wall_sp8" type="Sprite2D" parent="wall" unique_id=1703262665]
+[node name="wall_sp9" type="Sprite2D" parent="wall/wakk_side3" unique_id=2048142419]
 z_index = -1
-position = Vector2(18.640015, -148)
-scale = Vector2(0.07, 250)
+position = Vector2(149, -1.3428822)
+scale = Vector2(1.13, 22.381378)
 texture = SubResource("GradientTexture1D_vkbyq")
-metadata/_edit_lock_ = true
 
-[node name="wall4" parent="wall" unique_id=82076142 instance=ExtResource("3_qohg2")]
+[node name="wall5" parent="wall/wakk_side3" unique_id=101849028 instance=ExtResource("3_qohg2")]
+
+[node name="wallside" type="Node2D" parent="wall" unique_id=1262159675]
 position = Vector2(17.640015, -133)
 scale = Vector2(1, 11.17)
 metadata/_edit_lock_ = true
 
-[node name="wall5" parent="wall" unique_id=1046056927 instance=ExtResource("3_qohg2")]
-position = Vector2(311.96, -133)
-scale = Vector2(1, 11.17)
+[node name="wall_sp10" type="Sprite2D" parent="wall/wallside" unique_id=1203189139]
+z_index = -1
+position = Vector2(-151, -1.3428822)
+scale = Vector2(1.13, 22.381378)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall_sp8" type="Sprite2D" parent="wall/wallside" unique_id=1703262665]
+z_index = -1
+position = Vector2(1, -1.3428822)
+scale = Vector2(0.07, 22.381378)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall4" parent="wall/wallside" unique_id=82076142 instance=ExtResource("3_qohg2")]
+
+[node name="wallside2" type="Node2D" parent="wall" unique_id=579558352]
+position = Vector2(-37, -418.00003)
+scale = Vector2(1, 13.835)
+
+[node name="wall_sp10" type="Sprite2D" parent="wall/wallside2" unique_id=1322211085]
+z_index = -1
+position = Vector2(-151, -4.6030884)
+scale = Vector2(1.13, 30.006)
+texture = SubResource("GradientTexture1D_vkbyq")
 metadata/_edit_lock_ = true
+
+[node name="wall_sp8" type="Sprite2D" parent="wall/wallside2" unique_id=1255659863]
+z_index = -1
+position = Vector2(1, -4.6030884)
+scale = Vector2(0.07, 30.006)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall4" parent="wall/wallside2" unique_id=368727059 instance=ExtResource("3_qohg2")]
+position = Vector2(0, -5.9086843)
+scale = Vector2(1, 1.685)
 
 [node name="wall6" parent="wall" unique_id=940517031 instance=ExtResource("3_qohg2")]
 position = Vector2(-236, -16.03999)
@@ -304,6 +357,36 @@ rotation = 3.1415927
 scale = Vector2(0.365, 25.759918)
 texture = SubResource("GradientTexture1D_44x8d")
 
+[node name="wall4" type="Node2D" parent="wall" unique_id=1712480530]
+position = Vector2(-1013, -556)
+rotation = 1.5707964
+scale = Vector2(1, 38.82)
+metadata/_edit_lock_ = true
+
+[node name="wall_sp9" type="Sprite2D" parent="wall/wall4" unique_id=222776022]
+z_index = -1
+position = Vector2(-123.000046, -29.392065)
+rotation = 3.1415927
+scale = Vector2(0.07, 12.879959)
+texture = SubResource("GradientTexture1D_vkbyq")
+
+[node name="wall10" parent="wall/wall4" unique_id=1805547805 instance=ExtResource("3_qohg2")]
+position = Vector2(-84.96006, -29.211748)
+scale = Vector2(4.87, 1)
+
+[node name="wall_s3" type="Sprite2D" parent="wall/wall4" unique_id=567723219]
+z_index = -2
+position = Vector2(-83.96005, -26.326637)
+rotation = 3.1415927
+scale = Vector2(0.365, 25.759918)
+texture = SubResource("GradientTexture1D_44x8d")
+
+[node name="wall_sp10" type="Sprite2D" parent="wall" unique_id=2132693258]
+z_index = -1
+position = Vector2(129.99997, -781)
+scale = Vector2(3.34, 200)
+texture = SubResource("GradientTexture1D_vkbyq")
+
 [node name="bg2" type="Sprite2D" parent="." unique_id=1553888701]
 modulate = Color(1.353256, 1.353256, 1.353256, 0.019607844)
 light_mask = 0
@@ -327,9 +410,18 @@ metadata/_edit_lock_ = true
 light_mask = 0
 visibility_layer = 512
 z_index = -5
-position = Vector2(170.00002, -66.16399)
-scale = Vector2(1.5879354, -279.67203)
+position = Vector2(184, -66.16399)
+scale = Vector2(1.588, -331.197)
 texture = SubResource("GradientTexture1D_7lnir")
+metadata/_edit_lock_ = true
+
+[node name="bg4" type="Sprite2D" parent="." unique_id=488133465]
+light_mask = 0
+visibility_layer = 512
+z_index = -5
+position = Vector2(169, -412)
+scale = Vector2(1.5850166, -367.11954)
+texture = SubResource("GradientTexture1D_ivpvi")
 metadata/_edit_lock_ = true
 
 [connection signal="body_entered" from="cam" to="cam" method="_on_body_entered"]

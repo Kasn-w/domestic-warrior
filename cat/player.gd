@@ -12,8 +12,10 @@ extends CharacterBody2D
 
 @export var max_hp:int = 9
 var hp: int
-@export var speed = 300.0
-@export var attack_dmg: float = 10
+@export var base_speed:float = 150
+var speed: float
+@export var base_attack_dmg: float = 10
+var attack_dmg: float
 
 var walk: bool = false
 var is_flip: bool = false
@@ -42,9 +44,14 @@ var knockback: bool = false
 var knock_dir: Vector2
 var knock_s: float = 300
 
+var attack_mul:int = 0
+var speed_mul:int = 0
+
 func _ready() -> void:
 	cam_disable()
 	hp = max_hp
+	attack_dmg = base_attack_dmg
+	speed = base_speed
 
 func _unhandled_input(event: InputEvent) -> void:
 	if !knockback:
@@ -236,6 +243,13 @@ func frame_freeze(duration: float) -> void:
 	await get_tree().create_timer(duration, true, false, true).timeout
 	Engine.time_scale = 1.0
 
+func boost():
+	attack_mul += 5
+	if speed_mul < 25:
+		speed_mul += 1
+	attack_dmg = base_attack_dmg * ((float(attack_mul) / 100) + 1)
+	speed = base_speed * ((float(speed_mul) / 100) + 1)
+	
 func cam_toggle():
 	if cam.enabled:
 		cam_disable()

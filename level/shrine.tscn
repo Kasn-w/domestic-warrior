@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bk04ersfemi0y"]
+
+[ext_resource type="Texture2D" uid="uid://dju2hmnijspbj" path="res://sprite/soul/soul_boost_0001_circle.png" id="1_sa3up"]
+[ext_resource type="Texture2D" uid="uid://cifupxrdqb5xi" path="res://sprite/soul/soul_boost_0002_star.png" id="2_lgl8v"]
+[ext_resource type="Texture2D" uid="uid://bl36iiiek42ls" path="res://sprite/soul/soul_boost_0000_stone.png" id="3_74pyq"]
+[ext_resource type="Script" uid="uid://dvughhsg4c8md" path="res://level/star.gd" id="3_lgl8v"]
+[ext_resource type="Script" uid="uid://dd1go8uhytph7" path="res://boost_soul.gd" id="4_31nhl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yhgec"]
+size = Vector2(69, 68)
+
+[node name="shrine" type="Node2D" unique_id=818951730]
+
+[node name="circle" type="Sprite2D" parent="." unique_id=660323278]
+texture = ExtResource("1_sa3up")
+
+[node name="star" type="Sprite2D" parent="." unique_id=251920190]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("2_lgl8v")
+script = ExtResource("3_lgl8v")
+
+[node name="stone" type="Sprite2D" parent="." unique_id=741487926]
+position = Vector2(7.1525574e-07, -4.7683716e-07)
+scale = Vector2(1.5714285, 1.5714285)
+texture = ExtResource("3_74pyq")
+
+[node name="boost_soul" type="Area2D" parent="." unique_id=733546950]
+script = ExtResource("4_31nhl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boost_soul" unique_id=624918268]
+shape = SubResource("RectangleShape2D_yhgec")
+
+[connection signal="body_entered" from="boost_soul" to="boost_soul" method="_on_body_entered"]
+[connection signal="body_exited" from="boost_soul" to="boost_soul" method="_on_body_exited"]

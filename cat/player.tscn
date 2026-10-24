@@ -608,8 +608,6 @@ size = Vector2(38, 34)
 [node name="player" type="CharacterBody2D" unique_id=169657093 groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_ttamq")
-speed = 150.0
-attack_dmg = 8.0
 
 [node name="player_ui" parent="." unique_id=109338454 instance=ExtResource("2_jukwj")]
 
