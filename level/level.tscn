@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dh1tydhd1nda" path="res://rat/rat.tscn" id="1_5gx2l"]
 [ext_resource type="PackedScene" uid="uid://dxnok0kax3dmh" path="res://cat/player.tscn" id="1_7lnir"]
+[ext_resource type="Script" uid="uid://benmbgqo2qelh" path="res://level/level.gd" id="1_qohg2"]
 
 [sub_resource type="Gradient" id="Gradient_yy828"]
 colors = PackedColorArray(0.47058824, 0.654902, 0.63529414, 1, 0.47058824, 0.654902, 0.63529414, 1)
@@ -10,14 +11,21 @@ colors = PackedColorArray(0.47058824, 0.654902, 0.63529414, 1, 0.47058824, 0.654
 gradient = SubResource("Gradient_yy828")
 
 [node name="level" type="Node2D" unique_id=484725990]
+y_sort_enabled = true
+script = ExtResource("1_qohg2")
 
-[node name="rat" parent="." unique_id=736146869 instance=ExtResource("1_5gx2l")]
+[node name="all_rat" type="Node2D" parent="." unique_id=1925600833]
+y_sort_enabled = true
+
+[node name="rat" parent="all_rat" unique_id=736146869 instance=ExtResource("1_5gx2l")]
 position = Vector2(16.295, 0)
 
-[node name="rat2" parent="." unique_id=957860099 instance=ExtResource("1_5gx2l")]
+[node name="rat2" parent="all_rat" unique_id=957860099 instance=ExtResource("1_5gx2l")]
 position = Vector2(18.07, -2.69)
+speed = 50.0
 
 [node name="player" parent="." unique_id=169657093 instance=ExtResource("1_7lnir")]
+y_sort_enabled = true
 
 [node name="bg" type="Sprite2D" parent="." unique_id=1111359736]
 light_mask = 0
