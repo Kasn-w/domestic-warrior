@@ -1,9 +1,14 @@
 extends Node2D
 @export var hp: float = 5
 @export var speed: float = 20
-@export var aggressive: float = 1
+@export var aggressive: int = 1
 @export var stop_dis: float = 10
 @export var getaway_s: float = 1.5
+
+@export var think_t: float = 1
+@onready var thinking: Timer = $thinking
+@onready var act: Timer = $act
+@export var act_t: float = 5
 
 @onready var getaway_box: Area2D = $getaway_box
 
@@ -12,48 +17,75 @@ extends Node2D
 @onready var ani_sprite: Node2D = $ani_sprite
 @onready var animation: AnimationPlayer = $AnimationPlayer
 @onready var player = get_tree().get_nodes_in_group("player")[0]  
+@onready var attack_range: Area2D = $attack_range
 
+var is_thinking: bool = true
 var is_flip: bool = false
 var is_vul: bool = false
+var action:String = "walk"
+var attack_where: Vector2
 
-func setup(_hp: float, _speed: float, _aggressive:float = 1):
+func setup(_hp: float, _speed: float, _aggressive:int = 1):
 	hp = _hp
 	speed = _speed
 	aggressive = _aggressive
+	think_t = Global.aggresion[aggressive]["think_t"]
+	act_t = Global.aggresion[aggressive]["act_t"]
 	
 func _process(delta: float) -> void:
 	if not is_instance_valid(player):
 		player = get_tree().get_nodes_in_group("player")[0]
 		return
 	
-	var to_player :Vector2 = player.global_position - global_position
-	var chase:Vector2 = Vector2.ZERO
+	if is_thinking and !action == "attack":
+		animation.play("RESET",0.5)
+		return
+	elif is_thinking:
+		return
+	
+	if action == "walk":
+		var to_player :Vector2 = player.global_position - global_position
+		var chase:Vector2 = Vector2.ZERO
 
-	if to_player.length_squared() > stop_dis ** 2:
-		chase = to_player.normalized()
+		if to_player.length_squared() > stop_dis ** 2:
+			chase = to_player.normalized()
+			
+		var seperate := Vector2.ZERO
+		for rat in getaway_box.get_overlapping_areas():
+			if rat == self:
+				continue
+			
+			var away: Vector2 = global_position - rat.global_position
+			var distance: float = away.length()
+			if distance > 0.001 and distance < getaway_box.radius:
+				var weight: float = 1.0 - distance / getaway_box.radius
+				seperate += away.normalized() * weight
+			
+		var direction: Vector2 = chase + seperate * getaway_s
 		
-	var seperate := Vector2.ZERO
-	for rat in getaway_box.get_overlapping_areas():
-		if rat == self:
-			continue
+		global_position += direction.limit_length(1.0) * speed * delta
 		
-		var away: Vector2 = global_position - rat.global_position
-		var distance: float = away.length()
-		if distance > 0.001 and distance < getaway_box.radius:
-			var weight: float = 1.0 - distance / getaway_box.radius
-			seperate += away.normalized() * weight
+		if !is_flip and !sprite.flip_h and direction.x > 0:
+			sprite_flip()
+		elif !is_flip and sprite.flip_h and direction.x < 0:
+			sprite_flip()
+	elif action == "attack":
+		var seperate := Vector2.ZERO
+		for rat in getaway_box.get_overlapping_areas():
+			if rat == self:
+				continue
+			
+			var away: Vector2 = global_position - rat.global_position
+			var distance: float = away.length()
+			if distance > 0.001 and distance < getaway_box.radius:
+				var weight: float = 1.0 - distance / getaway_box.radius
+				seperate += away.normalized() * weight
+			
+		var direction: Vector2 = attack_where + seperate * getaway_s
+		global_position += direction.limit_length(1.0) * (speed + 100) * delta
 		
-	var direction: Vector2 = chase + seperate * getaway_s
-	
-	global_position += direction.limit_length(1.0) * speed * delta
-	
-	if !is_flip and !sprite.flip_h and direction.x > 0:
-		sprite_flip()
-	elif !is_flip and sprite.flip_h and direction.x < 0:
-		sprite_flip()
-	
-	if !animation.is_playing():
-		animation.play("walk", 0.2)
+	if !animation.is_playing() and !is_thinking and action == "walk" or animation.current_animation == "RESET":
+		animation.play("walk")
 	
 func get_hit(dmg:float, modi:String = "s"):
 	pass
@@ -72,9 +104,39 @@ func sprite_flip():
 	await tween2.finished
 	is_flip = false
 
+func think_start():
+	thinking.start(randf_range(think_t-0.3,think_t+0.3))
+	
 func _on_blink_timeout() -> void:
 	sprite.frame = 1
 	await get_tree().create_timer(0.2).timeout
 	sprite.frame = 0
 	var time = randf_range(8,15)
 	blink.start(time)
+
+
+func _on_act_timeout() -> void:
+	is_thinking = true
+	think_start()
+
+func _on_thinking_timeout() -> void:
+	if attack_range.overlaps_body(player):
+		attack_where = (player.global_position - global_position).normalized()
+		action = "attack"
+		animation.speed_scale = 0.5
+		animation.play("start")
+	else:
+		is_thinking = false
+		action = "walk"
+		act.start(act_t)
+
+func start_fin():
+	is_thinking = false
+	animation.speed_scale = 1
+	animation.play("attack")
+	
+func _on_attack_range_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		is_thinking = true
+		thinking.stop()
+		thinking.start(randf_range(think_t / 5, think_t / 2))

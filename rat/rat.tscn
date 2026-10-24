@@ -121,6 +121,20 @@ tracks/3/keys = {
 "update": 0,
 "values": [Color(0.99994534, 0.4255371, 0.39267904, 1), Color(0.99994534, 0.4255371, 0.39267904, 1), Color(1, 1, 1, 1)]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_act_timeout"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_vciox"]
 resource_name = "attack"
@@ -172,6 +186,20 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(0.99994534, 0.4255371, 0.39267904, 1)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.36666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_fin"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_xaegx"]
@@ -229,13 +257,21 @@ radius = 2.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_5nbdk"]
 radius = 5.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_vvfaw"]
+radius = 32.0
+
 [node name="rat" type="Node2D" unique_id=736146869 groups=["rat"]]
 script = ExtResource("1_sa6f2")
 getaway_s = 0.5
 
+[node name="thinking" type="Timer" parent="." unique_id=1768495387]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
 [node name="act" type="Timer" parent="." unique_id=721441724]
 wait_time = 0.5
-autostart = true
+one_shot = true
 
 [node name="blink" type="Timer" parent="." unique_id=1459544707]
 autostart = true
@@ -261,4 +297,14 @@ script = ExtResource("4_vvfaw")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_5nbdk")
 
+[node name="attack_range" type="Area2D" parent="." unique_id=1783891040]
+script = ExtResource("4_vvfaw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range" unique_id=769501517]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_vvfaw")
+
+[connection signal="timeout" from="thinking" to="." method="_on_thinking_timeout"]
+[connection signal="timeout" from="act" to="." method="_on_act_timeout"]
 [connection signal="timeout" from="blink" to="." method="_on_blink_timeout"]
+[connection signal="body_entered" from="attack_range" to="." method="_on_attack_range_body_entered"]

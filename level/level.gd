@@ -10,6 +10,7 @@ var sprite = []
 func _ready() -> void:
 	for i in range(100):
 		spaw_rat()
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
