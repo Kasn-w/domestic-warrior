@@ -161,10 +161,36 @@ tracks/3/keys = {
 "method": &"attack_fin"
 }]
 }
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.3, 0.46666667, 0.6333334, 0.8, 0.96666664),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"check_bite"
+}, {
+"args": [],
+"method": &"check_bite"
+}, {
+"args": [],
+"method": &"check_bite"
+}, {
+"args": [],
+"method": &"check_bite"
+}, {
+"args": [],
+"method": &"check_bite"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_jukwj"]
 resource_name = "dash"
-length = 0.43333334
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -184,7 +210,7 @@ tracks/1/path = NodePath("ani_sprite/AnimatedSprite2D:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.23333333, 0.3, 0.43333334),
+"times": PackedFloat32Array(0, 0.23333333, 0.36666667, 0.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(1.265, 0.64), Vector2(1.265, 0.64), Vector2(1, 1)]
@@ -196,9 +222,12 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.43333334),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"be_vul"
+}, {
 "args": [],
 "method": &"dodge_fin"
 }]
@@ -290,9 +319,12 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(1.1666666),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.2, 1.1666666),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"be_vul"
+}, {
 "args": [],
 "method": &"dodge_fin"
 }]
@@ -360,7 +392,7 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.16666667),
+"times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -433,10 +465,20 @@ _data = {
 &"walk": SubResource("Animation_r1ydg")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqwmm"]
+size = Vector2(25, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jukwj"]
+size = Vector2(38, 34)
+
 [node name="player" type="CharacterBody2D" unique_id=169657093 groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_ttamq")
 speed = 150.0
+attack_dmg = 8.0
+
+[node name="vul" type="Timer" parent="." unique_id=538218010]
+one_shot = true
 
 [node name="dodge" type="Timer" parent="." unique_id=1656248282]
 
@@ -463,6 +505,23 @@ libraries/ = SubResource("AnimationLibrary_2jb0p")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1583934449]
 zoom = Vector2(5, 5)
 
+[node name="swipe" type="Area2D" parent="." unique_id=1015616514]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="swipe" unique_id=537889532]
+position = Vector2(9.5, 0)
+shape = SubResource("RectangleShape2D_bqwmm")
+debug_color = Color(0.99960786, 0, 0.12214216, 0.41960785)
+
+[node name="bite" type="Area2D" parent="." unique_id=365436227]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bite" unique_id=1091894828]
+position = Vector2(12, 0)
+shape = SubResource("RectangleShape2D_jukwj")
+debug_color = Color(0.99960786, 0, 0.12214216, 0.41960785)
+
+[connection signal="timeout" from="vul" to="." method="_on_vul_timeout"]
 [connection signal="timeout" from="dodge" to="." method="_on_dodge_timeout"]
 [connection signal="timeout" from="blink" to="." method="_on_blink_timeout"]
 [connection signal="timeout" from="idel" to="." method="_on_idel_timeout"]

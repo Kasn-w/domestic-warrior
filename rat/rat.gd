@@ -1,5 +1,6 @@
 extends Node2D
-@export var hp: float = 5
+var max_hp: float
+@export var hp: float = 10
 @export var speed: float = 20
 @export var aggressive: int = 1
 @export var stop_dis: float = 10
@@ -18,15 +19,25 @@ extends Node2D
 @onready var animation: AnimationPlayer = $AnimationPlayer
 @onready var player = get_tree().get_nodes_in_group("player")[0]  
 @onready var attack_range: Area2D = $attack_range
+@onready var hit_box: Area2D = $hit_box
 
 var is_thinking: bool = true
 var is_flip: bool = false
 var is_vul: bool = false
 var action:String = "walk"
 var attack_where: Vector2
+var is_attack: bool = false
+
+var knockback: bool = false
+var knock_dir: Vector2
+var knock_s: float = 100
+var is_stun: bool = false
+
+var is_drying = false
 
 func setup(_hp: float, _speed: float, _aggressive:int = 1):
 	hp = _hp
+	max_hp = hp
 	speed = _speed
 	aggressive = _aggressive
 	think_t = Global.aggresion[aggressive]["think_t"]
@@ -35,6 +46,17 @@ func setup(_hp: float, _speed: float, _aggressive:int = 1):
 func _process(delta: float) -> void:
 	if not is_instance_valid(player):
 		player = get_tree().get_nodes_in_group("player")[0]
+		return
+	
+	if knockback == true:
+		var velocity = -knock_dir
+		knock_dir = knock_dir.move_toward(Vector2.ZERO, 850 * delta)
+		if knock_dir == Vector2.ZERO:
+			knockback = false
+		
+		global_position += velocity * delta
+		return
+	if is_stun:
 		return
 	
 	if is_thinking and !action == "attack":
@@ -83,12 +105,23 @@ func _process(delta: float) -> void:
 			
 		var direction: Vector2 = attack_where + seperate * getaway_s
 		global_position += direction.limit_length(1.0) * (speed + 100) * delta
-		
+	
 	if !animation.is_playing() and !is_thinking and action == "walk" or animation.current_animation == "RESET":
 		animation.play("walk")
 	
-func get_hit(dmg:float, modi:String = "s"):
-	pass
+func get_hit(dmg:float, modi:String = "s", _knock_s = knock_s):
+	if is_drying:
+		return
+	
+	hp -= dmg
+	if modi == "s":
+		_on_blink_timeout()
+		animation.stop()
+		animation.play("RESET")
+		is_stun = true
+		animation.play("get_hit")
+		knockback = true
+		knock_dir = (player.global_position - global_position).normalized() * _knock_s
 
 func sprite_flip():
 	is_flip = true
@@ -117,26 +150,51 @@ func _on_blink_timeout() -> void:
 
 func _on_act_timeout() -> void:
 	is_thinking = true
+	is_attack = false
 	think_start()
 
 func _on_thinking_timeout() -> void:
-	if attack_range.overlaps_body(player):
-		attack_where = (player.global_position - global_position).normalized()
-		action = "attack"
-		animation.speed_scale = 0.5
-		animation.play("start")
-	else:
-		is_thinking = false
-		action = "walk"
-		act.start(act_t)
+	if !is_stun:
+		if attack_range.overlaps_body(player):
+			attack_where = (player.global_position - global_position).normalized()
+			action = "attack"
+			animation.speed_scale = 0.5
+			animation.play("start")
+		else:
+			is_thinking = false
+			action = "walk"
+			act.start(act_t)
 
 func start_fin():
 	is_thinking = false
+	is_attack = true
 	animation.speed_scale = 1
 	animation.play("attack")
 	
 func _on_attack_range_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		is_thinking = true
-		thinking.stop()
-		thinking.start(randf_range(think_t / 5, think_t / 2))
+	if !is_stun and !is_attack:
+		if body.is_in_group("player"):
+			is_thinking = true
+			thinking.stop()
+			thinking.start(randf_range(think_t / 5, think_t / 2))
+
+
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and animation.is_playing() and animation.current_animation == "attack":
+		body.get_hit(attack_where, 300)
+
+
+func _on_hit_box_a_get_hit(dmg: float, modi: String, _knock:float) -> void:
+	get_hit(dmg, modi, _knock)
+
+func _hit_end():
+	if (hp < 0):
+		animation.play("down")
+	else:
+		is_stun = false
+		animation.play("RESET")
+
+func _super_dead():
+	if (hp < (-max_hp * 1.5)):
+		is_drying = true
+		animation.play("down")
