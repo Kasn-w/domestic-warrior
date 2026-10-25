@@ -8,8 +8,15 @@
 [ext_resource type="PackedScene" uid="uid://gdj15ea3ciqi" path="res://level/wall.tscn" id="3_qohg2"]
 [ext_resource type="Texture2D" uid="uid://ck223bwgnqgqh" path="res://sprite/ui/arrow.png" id="5_0v1st"]
 [ext_resource type="PackedScene" uid="uid://bk04ersfemi0y" path="res://level/shrine.tscn" id="6_44x8d"]
-[ext_resource type="Script" uid="uid://c7akaq01lrc6o" path="res://spwanner.gd" id="9_cw150"]
+[ext_resource type="Script" uid="uid://bxdf1lpevwk7c" path="res://level/rat_king_door.gd" id="7_7jqyl"]
+[ext_resource type="Script" uid="uid://c7akaq01lrc6o" path="res://rat/spwanner.gd" id="9_cw150"]
 [ext_resource type="PackedScene" uid="uid://dv2gt3gwncg5j" path="res://collect/heart.tscn" id="9_xii2b"]
+[ext_resource type="PackedScene" uid="uid://nvfadgpinioj" path="res://rat/rat_king.tscn" id="10_m3nah"]
+[ext_resource type="Script" uid="uid://bi7ob0a5w1yai" path="res://level/all_spawnner.gd" id="10_xii2b"]
+[ext_resource type="PackedScene" uid="uid://dxthths1mhl65" path="res://collect/upgrade.tscn" id="11_m5ivw"]
+[ext_resource type="Script" uid="uid://c2omkdtr0p55c" path="res://rat/medic_spwanner.gd" id="12_rhqlf"]
+[ext_resource type="Script" uid="uid://dlcptuqek3p5" path="res://rat/armmor_spwanner.gd" id="13_l5lfc"]
+[ext_resource type="Script" uid="uid://ch7byca6xd2dv" path="res://level/rat_king_room.gd" id="14_m3nah"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6gtgk"]
 font = ExtResource("2_ivpvi")
@@ -50,7 +57,34 @@ colors = PackedColorArray(0.5686275, 0.37254903, 0, 1, 0.9999997, 0.69240123, 0.
 gradient = SubResource("Gradient_ktfr2")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6gtgk"]
-size = Vector2(157, 146)
+size = Vector2(157, 184)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5lfc"]
+size = Vector2(157, 92)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xii2b"]
+size = Vector2(301, 296)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rhqlf"]
+size = Vector2(301, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3nah"]
+size = Vector2(71, 310)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fm1jd"]
+size = Vector2(71, 555)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16ngs"]
+size = Vector2(192, 203)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jqyl"]
+size = Vector2(79, 66.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ivw"]
+size = Vector2(102, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sui6v"]
+size = Vector2(136, 135)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_qohg2"]
 frequency = 0.532
@@ -76,7 +110,7 @@ gradient = SubResource("Gradient_44x8d")
 y_sort_enabled = true
 script = ExtResource("1_qohg2")
 
-[node name="rat_king" type="Label" parent="." unique_id=1527071033]
+[node name="rat_king_l" type="Label" parent="." unique_id=1527071033]
 offset_left = 154.0
 offset_top = -209.0
 offset_right = 190.0
@@ -125,9 +159,12 @@ offset_bottom = -77.0
 text = "     -control-
 wasd   - movement
 M_left - claw swipe
+M_right - dash
+  (now do damanage!)
 hold m-left + wasd
                - bite
-M_right - dash"
+E - sleep and tp back
+(bigger hit box)"
 label_settings = SubResource("LabelSettings_0v1st")
 
 [node name="den_exp" type="Label" parent="." unique_id=150108538]
@@ -196,6 +233,25 @@ script = ExtResource("3_ktfr2")
 move = -10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cam2" unique_id=1790972410]
+position = Vector2(174, -19)
+shape = SubResource("RectangleShape2D_44x8d")
+debug_color = Color(0.9713846, 0.08011768, 0.38474917, 0.41960785)
+
+[node name="rat_king_door" type="Area2D" parent="." unique_id=1737570715]
+position = Vector2(0, -212)
+script = ExtResource("7_7jqyl")
+entrance = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_door" unique_id=17958469]
+position = Vector2(174, -19)
+shape = SubResource("RectangleShape2D_44x8d")
+debug_color = Color(0.9713846, 0.08011768, 0.38474917, 0.41960785)
+
+[node name="rat_king_door2" type="Area2D" parent="." unique_id=780921324]
+position = Vector2(0, -189)
+script = ExtResource("7_7jqyl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_door2" unique_id=1501500594]
 position = Vector2(174, -19)
 shape = SubResource("RectangleShape2D_44x8d")
 debug_color = Color(0.9713846, 0.08011768, 0.38474917, 0.41960785)
@@ -553,7 +609,7 @@ scale = Vector2(3.34, 200)
 texture = SubResource("GradientTexture1D_vkbyq")
 
 [node name="heart" parent="." unique_id=1826357930 instance=ExtResource("9_xii2b")]
-position = Vector2(86, 186)
+position = Vector2(173, 257)
 
 [node name="heart2" parent="." unique_id=538371527 instance=ExtResource("9_xii2b")]
 position = Vector2(174.00002, 815.0001)
@@ -564,74 +620,368 @@ position = Vector2(150, 1620.0001)
 [node name="heart4" parent="." unique_id=1686686883 instance=ExtResource("9_xii2b")]
 position = Vector2(165, 2383.0002)
 
-[node name="spwanner_easy" type="Area2D" parent="." unique_id=1050841861]
-position = Vector2(92, 72.99999)
+[node name="dash_col" parent="." unique_id=1815338150 instance=ExtResource("11_m5ivw")]
+position = Vector2(167, 2437)
+sprite = "res://sprite/upgrade_icon/dash_up.png"
+do = "dash_up"
+
+[node name="sleep_col" parent="." unique_id=1447793590 instance=ExtResource("11_m5ivw")]
+position = Vector2(277, 1375)
+sprite = "res://sprite/upgrade_icon/pillow.png"
+do = "sleep"
+
+[node name="bite_col" parent="." unique_id=1724124010 instance=ExtResource("11_m5ivw")]
+position = Vector2(243, 412)
+sprite = "res://sprite/upgrade_icon/bite_up.png"
+do = "bite"
+
+[node name="hit_box_col" parent="." unique_id=248195113 instance=ExtResource("11_m5ivw")]
+position = Vector2(74, 1000)
+sprite = "res://sprite/upgrade_icon/hit_box_up.png"
+do = "hit_box"
+
+[node name="spawnner" type="Node" parent="." unique_id=74327981]
+script = ExtResource("10_xii2b")
+
+[node name="spwanner_easy" type="Area2D" parent="spawnner" unique_id=1050841861]
+position = Vector2(92, 133)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
-hp = 15.0
+hp = 5.0
 speed = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy" unique_id=382174184]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/spwanner_easy" unique_id=382174184]
 position = Vector2(0.5, 7.6293945e-06)
 shape = SubResource("RectangleShape2D_6gtgk")
 debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
 
-[node name="Timer" type="Timer" parent="spwanner_easy" unique_id=2045344277]
+[node name="Timer" type="Timer" parent="spawnner/spwanner_easy" unique_id=2045344277]
 wait_time = 0.5
 one_shot = true
 autostart = true
 
-[node name="spwanner_easy2" type="Area2D" parent="." unique_id=1319272540]
-position = Vector2(256, 72.99999)
+[node name="spwanner_easy2" type="Area2D" parent="spawnner" unique_id=1319272540]
+position = Vector2(256, 133)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
-hp = 15.0
+hp = 5.0
 speed = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy2" unique_id=1149434679]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/spwanner_easy2" unique_id=1149434679]
 position = Vector2(0.5, 7.6293945e-06)
 shape = SubResource("RectangleShape2D_6gtgk")
 debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
 
-[node name="Timer" type="Timer" parent="spwanner_easy2" unique_id=1308409442]
+[node name="Timer" type="Timer" parent="spawnner/spwanner_easy2" unique_id=1308409442]
 wait_time = 0.5
 one_shot = true
 autostart = true
 
-[node name="spwanner_easy3" type="Area2D" parent="." unique_id=1083587024]
-position = Vector2(92, 294)
+[node name="spwanner_easy3" type="Area2D" parent="spawnner" unique_id=1083587024]
+position = Vector2(92, 345)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
-hp = 15.0
+hp = 5.0
 speed = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy3" unique_id=1055202653]
-position = Vector2(0.5, 7.6293945e-06)
-shape = SubResource("RectangleShape2D_6gtgk")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/spwanner_easy3" unique_id=1055202653]
+position = Vector2(0.5, -1)
+shape = SubResource("RectangleShape2D_l5lfc")
 debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
 
-[node name="Timer" type="Timer" parent="spwanner_easy3" unique_id=215860398]
+[node name="Timer" type="Timer" parent="spawnner/spwanner_easy3" unique_id=215860398]
 wait_time = 0.5
 one_shot = true
 autostart = true
 
-[node name="spwanner_easy4" type="Area2D" parent="." unique_id=570191026]
-position = Vector2(256, 245)
+[node name="spwanner_easy4" type="Area2D" parent="spawnner" unique_id=686256754]
+position = Vector2(256, 344)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
-hp = 15.0
+hp = 5.0
 speed = 20.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="spwanner_easy4" unique_id=966927569]
-position = Vector2(0.5, 7.6293945e-06)
-shape = SubResource("RectangleShape2D_6gtgk")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/spwanner_easy4" unique_id=1996171012]
+position = Vector2(0.5, -1)
+shape = SubResource("RectangleShape2D_l5lfc")
 debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
 
-[node name="Timer" type="Timer" parent="spwanner_easy4" unique_id=1765113820]
+[node name="Timer" type="Timer" parent="spawnner/spwanner_easy4" unique_id=656088097]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner_meduim" type="Area2D" parent="spawnner" unique_id=1301832951]
+position = Vector2(178, 633)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+amout = 100.0
+hp = 10.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/spwanner_meduim" unique_id=1853812240]
+position = Vector2(2.5, -2)
+shape = SubResource("RectangleShape2D_xii2b")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spawnner/spwanner_meduim" unique_id=1584954773]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner_meduim2" type="Area2D" parent="spawnner" unique_id=22282028]
+position = Vector2(178, 1279)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+amout = 150.0
+hp = 35.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/spwanner_meduim2" unique_id=355524216]
+position = Vector2(2.5, 0)
+shape = SubResource("RectangleShape2D_rhqlf")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spawnner/spwanner_meduim2" unique_id=1071955302]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner_meduim3" type="Area2D" parent="spawnner" unique_id=937868728]
+position = Vector2(173, 2040)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+amout = 150.0
+hp = 55.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/spwanner_meduim3" unique_id=656085331]
+position = Vector2(2.5, 0)
+shape = SubResource("RectangleShape2D_rhqlf")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spawnner/spwanner_meduim3" unique_id=707522887]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="medic_spwanner" type="Area2D" parent="spawnner" unique_id=246428572]
+position = Vector2(178, 1279)
+monitoring = false
+monitorable = false
+script = ExtResource("12_rhqlf")
+amout = 20.0
+hp = 10.0
+speed = 50.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/medic_spwanner" unique_id=1231613585]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_m3nah")
+debug_color = Color(0.9994715, 0, 0.15210235, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spawnner/medic_spwanner" unique_id=1126909098]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="medic_spwanner2" type="Area2D" parent="spawnner" unique_id=2022447024]
+position = Vector2(178, 2041)
+monitoring = false
+monitorable = false
+script = ExtResource("12_rhqlf")
+amout = 20.0
+hp = 10.0
+speed = 50.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/medic_spwanner2" unique_id=1299077768]
+position = Vector2(-2, 2)
+shape = SubResource("RectangleShape2D_fm1jd")
+debug_color = Color(0.9994715, 0, 0.15210235, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spawnner/medic_spwanner2" unique_id=2041395902]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="ammor_spwanner" type="Area2D" parent="spawnner" unique_id=2038561871]
+position = Vector2(138, 1866)
+monitoring = false
+monitorable = false
+script = ExtResource("13_l5lfc")
+amout = 10.0
+hp = 80.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/ammor_spwanner" unique_id=680087602]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_16ngs")
+debug_color = Color(0.3237716, 0.49217683, 1, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spawnner/ammor_spwanner" unique_id=2144367603]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="ammor_spwanner2" type="Area2D" parent="spawnner" unique_id=1826536290]
+position = Vector2(208, 2212)
+monitoring = false
+monitorable = false
+script = ExtResource("13_l5lfc")
+amout = 10.0
+hp = 80.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnner/ammor_spwanner2" unique_id=249035451]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_16ngs")
+debug_color = Color(0.3237716, 0.49217683, 1, 0.41960785)
+
+[node name="Timer" type="Timer" parent="spawnner/ammor_spwanner2" unique_id=917346399]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="rat_king_room" type="Node2D" parent="." unique_id=1525877974]
+script = ExtResource("14_m3nah")
+
+[node name="rat_king" parent="rat_king_room" unique_id=736146869 instance=ExtResource("10_m3nah")]
+position = Vector2(134, -561)
+hp = 500.0
+aggressive = 2
+think_t = 0.5
+
+[node name="ammor_spwanner" type="Area2D" parent="rat_king_room" unique_id=1483112404]
+position = Vector2(25, -547)
+monitoring = false
+monitorable = false
+script = ExtResource("13_l5lfc")
+amout = 10.0
+hp = 80.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/ammor_spwanner" unique_id=643094574]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_7jqyl")
+debug_color = Color(0.3237716, 0.49217683, 1, 0.41960785)
+
+[node name="Timer" type="Timer" parent="rat_king_room/ammor_spwanner" unique_id=2038461630]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="ammor_spwanner2" type="Area2D" parent="rat_king_room" unique_id=184934514 groups=["spawner"]]
+position = Vector2(248, -547)
+monitoring = false
+monitorable = false
+script = ExtResource("13_l5lfc")
+amout = 10.0
+hp = 80.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/ammor_spwanner2" unique_id=526450486]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_7jqyl")
+debug_color = Color(0.3237716, 0.49217683, 1, 0.41960785)
+
+[node name="Timer" type="Timer" parent="rat_king_room/ammor_spwanner2" unique_id=1138233873]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="medic_spwanner" type="Area2D" parent="rat_king_room" unique_id=1461787839 groups=["spawner"]]
+position = Vector2(134, -428)
+monitoring = false
+monitorable = false
+script = ExtResource("12_rhqlf")
+interval = 25.0
+amout = 10.0
+hp = 10.0
+speed = 30.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/medic_spwanner" unique_id=1318255049]
+shape = SubResource("RectangleShape2D_m5ivw")
+debug_color = Color(0.9994715, 0, 0.15210235, 0.41960785)
+
+[node name="Timer" type="Timer" parent="rat_king_room/medic_spwanner" unique_id=1072003699]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner" type="Area2D" parent="rat_king_room" unique_id=823940085 groups=["spawner"]]
+position = Vector2(61, -504)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 40.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/spwanner" unique_id=1953939201]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_sui6v")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="rat_king_room/spwanner" unique_id=359207707]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner2" type="Area2D" parent="rat_king_room" unique_id=916337345 groups=["spawner"]]
+position = Vector2(61, -380)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 40.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/spwanner2" unique_id=2013989979]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_sui6v")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="rat_king_room/spwanner2" unique_id=1931148637]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner3" type="Area2D" parent="rat_king_room" unique_id=1766971034 groups=["spawner"]]
+position = Vector2(212, -504)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 40.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/spwanner3" unique_id=1197169805]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_sui6v")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="rat_king_room/spwanner3" unique_id=1532812278]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="spwanner4" type="Area2D" parent="rat_king_room" unique_id=664186278 groups=["spawner"]]
+position = Vector2(212, -380)
+monitoring = false
+monitorable = false
+script = ExtResource("9_cw150")
+hp = 40.0
+speed = 20.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/spwanner4" unique_id=1193708536]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_sui6v")
+debug_color = Color(0.8068047, 0.0023206724, 0.99421364, 0.41960785)
+
+[node name="Timer" type="Timer" parent="rat_king_room/spwanner4" unique_id=370414778]
 wait_time = 0.5
 one_shot = true
 autostart = true
@@ -673,11 +1023,28 @@ scale = Vector2(1.5850166, -367.11954)
 texture = SubResource("GradientTexture1D_ivpvi")
 metadata/_edit_lock_ = true
 
+[connection signal="upgrade" from="player" to="." method="_on_player_upgrade"]
 [connection signal="body_entered" from="cam" to="cam" method="_on_body_entered"]
 [connection signal="body_exited" from="cam" to="cam" method="_on_body_exited"]
 [connection signal="body_entered" from="cam2" to="cam2" method="_on_body_entered"]
 [connection signal="body_exited" from="cam2" to="cam2" method="_on_body_exited"]
-[connection signal="timeout" from="spwanner_easy/Timer" to="spwanner_easy" method="_on_timer_timeout"]
-[connection signal="timeout" from="spwanner_easy2/Timer" to="spwanner_easy2" method="_on_timer_timeout"]
-[connection signal="timeout" from="spwanner_easy3/Timer" to="spwanner_easy3" method="_on_timer_timeout"]
-[connection signal="timeout" from="spwanner_easy4/Timer" to="spwanner_easy4" method="_on_timer_timeout"]
+[connection signal="body_entered" from="rat_king_door" to="rat_king_door" method="_on_body_entered"]
+[connection signal="body_entered" from="rat_king_door2" to="rat_king_door2" method="_on_body_entered"]
+[connection signal="timeout" from="spawnner/spwanner_easy/Timer" to="spawnner/spwanner_easy" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/spwanner_easy2/Timer" to="spawnner/spwanner_easy2" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/spwanner_easy3/Timer" to="spawnner/spwanner_easy3" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/spwanner_easy4/Timer" to="spawnner/spwanner_easy4" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/spwanner_meduim/Timer" to="spawnner/spwanner_meduim" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/spwanner_meduim2/Timer" to="spawnner/spwanner_meduim2" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/spwanner_meduim3/Timer" to="spawnner/spwanner_meduim3" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/medic_spwanner/Timer" to="spawnner/medic_spwanner" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/medic_spwanner2/Timer" to="spawnner/medic_spwanner2" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/ammor_spwanner/Timer" to="spawnner/ammor_spwanner" method="_on_timer_timeout"]
+[connection signal="timeout" from="spawnner/ammor_spwanner2/Timer" to="spawnner/ammor_spwanner2" method="_on_timer_timeout"]
+[connection signal="timeout" from="rat_king_room/ammor_spwanner/Timer" to="rat_king_room/ammor_spwanner" method="_on_timer_timeout"]
+[connection signal="timeout" from="rat_king_room/ammor_spwanner2/Timer" to="rat_king_room/ammor_spwanner2" method="_on_timer_timeout"]
+[connection signal="timeout" from="rat_king_room/medic_spwanner/Timer" to="rat_king_room/medic_spwanner" method="_on_timer_timeout"]
+[connection signal="timeout" from="rat_king_room/spwanner/Timer" to="rat_king_room/spwanner" method="_on_timer_timeout"]
+[connection signal="timeout" from="rat_king_room/spwanner2/Timer" to="rat_king_room/spwanner2" method="_on_timer_timeout"]
+[connection signal="timeout" from="rat_king_room/spwanner3/Timer" to="rat_king_room/spwanner3" method="_on_timer_timeout"]
+[connection signal="timeout" from="rat_king_room/spwanner4/Timer" to="rat_king_room/spwanner4" method="_on_timer_timeout"]

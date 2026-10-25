@@ -1,7 +1,10 @@
 extends Area2D
+
+@export var enable: bool = true
 @onready var timer: Timer = $Timer
 @onready var colli: CollisionShape2D = $CollisionShape2D
-const rat = preload("uid://dh1tydhd1nda")
+const rat = preload("uid://cbatpipc0h38v")
+@onready var player = get_tree().get_nodes_in_group("player")[0] 
 
 @export var interval: float = 10
 @export var amout: float = 25
@@ -18,6 +21,9 @@ func randome_postion():
 	return local_position
 
 func spaw_rat(_hp: float = 5.0, _speed: float = 20.0, _agg: int = 1):
+	if !enable:
+		return
+	
 	var create = rat.instantiate()
 	if (randf_range(0,1) > 0.95):
 		_speed *= 3
@@ -25,8 +31,32 @@ func spaw_rat(_hp: float = 5.0, _speed: float = 20.0, _agg: int = 1):
 		_agg = randi_range(0, 2)
 	create.setup(_hp,_speed,_agg)
 	
-	add_child(create)
+	add_child.call_deferred(create)
 	create.position = randome_postion()
+
+func enter_hub():
+	for i in get_children():
+		if i.is_in_group("rat"):
+			i._on_unsee_range_body_exited(player)
+
+func exit_hub():
+	for i in get_children():
+		if i.is_in_group("rat") and i.global_position.distance_to(player.global_position) <= 163:
+			i._on_see_range_body_entered(player)
+
+func close():
+	enable = false
+	for i in get_children():
+		if i.is_in_group("rat"):
+			i.set_process(false)
+
+func open():
+	enable = true
+	for i in get_children():
+		if i.is_in_group("rat"):
+			i.set_process(true)
+	timer.stop()
+	_on_timer_timeout()
 
 func _on_timer_timeout() -> void:
 	var check = false

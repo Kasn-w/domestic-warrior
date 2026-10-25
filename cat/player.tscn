@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b4tdawhyn5ub8" path="res://sprite/enchant_0009_cat_idel_e.png" id="3_ttamq"]
 [ext_resource type="Texture2D" uid="uid://b5lkpd7tk5rap" path="res://sprite/enchant_0006_cat_startup.png" id="4_ttamq"]
 [ext_resource type="Texture2D" uid="uid://lkd1s025xuak" path="res://sprite/enchant_0005_cat_swipe.png" id="5_bqwmm"]
+[ext_resource type="Texture2D" uid="uid://bi3i7ng6rotjh" path="res://sprite/enchant_0009_cat_sleep.png" id="8_kk865"]
 [ext_resource type="Texture2D" uid="uid://dge0yesv5wv8x" path="res://sprite/attack/attack_0000_bite_down.png" id="10_mko4r"]
 [ext_resource type="Texture2D" uid="uid://dojf4tw6s8nha" path="res://sprite/attack/attack_0001_bite_up.png" id="11_kk865"]
 [ext_resource type="Texture2D" uid="uid://c7q0b65q4q0li" path="res://sprite/attack/attack_0002_swipe.png" id="12_7g6ba"]
@@ -40,6 +41,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_kk865")
+}],
+"loop": true,
+"name": &"sleep",
 "speed": 5.0
 }, {
 "frames": [{
@@ -308,6 +317,29 @@ tracks/2/keys = {
 "method": &"dodge_fin"
 }]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1, 0.23333335, 0.36666667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"check_dash"
+}, {
+"args": [],
+"method": &"check_dash"
+}, {
+"args": [],
+"method": &"check_dash"
+}, {
+"args": [],
+"method": &"check_dash"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_1kkat"]
 resource_name = "dead"
@@ -487,6 +519,48 @@ tracks/1/keys = {
 "values": [Vector2(1, 1), Vector2(0.835, 1.125), Vector2(1.185, 0.52), Vector2(0.835, 1.125), Vector2(1.185, 0.52), Vector2(1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_lyxnw"]
+resource_name = "sleep"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ani_sprite/AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [&"idel", &"sleep"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ani_sprite/AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333333, 0.36666667, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.545, 1.83), Vector2(1.405, 0.715), Vector2(1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"tp"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_7g6ba"]
 resource_name = "startup"
 length = 0.16666667
@@ -627,6 +701,7 @@ _data = {
 &"idel": SubResource("Animation_3nk30"),
 &"jump": SubResource("Animation_mko4r"),
 &"maybe": SubResource("Animation_kk865"),
+&"sleep": SubResource("Animation_lyxnw"),
 &"swipe": SubResource("Animation_7g6ba"),
 &"walk": SubResource("Animation_r1ydg")
 }
@@ -656,8 +731,11 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bqwmm"]
 size = Vector2(25, 30)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kk865"]
+size = Vector2(36, 34)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jukwj"]
-size = Vector2(38, 34)
+size = Vector2(22.5, 18)
 
 [node name="player" type="CharacterBody2D" unique_id=169657093 groups=["player"]]
 motion_mode = 1
@@ -686,7 +764,6 @@ sprite_frames = SubResource("SpriteFrames_jukwj")
 animation = &"idel"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1427246137]
-visible = false
 shape = SubResource("CircleShape2D_51li8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1425809579]
@@ -704,7 +781,6 @@ animation = &"swipe"
 offset = Vector2(9.61, 0)
 
 [node name="swipe" type="Area2D" parent="." unique_id=1015616514]
-visible = false
 collision_layer = 5
 collision_mask = 5
 
@@ -714,10 +790,16 @@ shape = SubResource("RectangleShape2D_bqwmm")
 debug_color = Color(0.99960786, 0, 0.12214216, 0.41960785)
 
 [node name="bite" type="Area2D" parent="." unique_id=365436227]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bite" unique_id=1091894828]
-position = Vector2(12, 0)
+position = Vector2(13, 0)
+shape = SubResource("RectangleShape2D_kk865")
+debug_color = Color(0.99960786, 0, 0.12214216, 0.41960785)
+
+[node name="dash" type="Area2D" parent="." unique_id=1511726221]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dash" unique_id=215926643]
 shape = SubResource("RectangleShape2D_jukwj")
 debug_color = Color(0.99960786, 0, 0.12214216, 0.41960785)
 

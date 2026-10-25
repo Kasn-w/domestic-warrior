@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://blgr6up756ym3"]
 
-[ext_resource type="Script" uid="uid://c7akaq01lrc6o" path="res://spwanner.gd" id="1_aqpao"]
+[ext_resource type="Script" uid="uid://c7akaq01lrc6o" path="res://rat/spwanner.gd" id="1_aqpao"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_16ngs"]
 

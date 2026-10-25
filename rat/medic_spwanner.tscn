@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bucjjtwmd6l5q"]
+
+[ext_resource type="Script" uid="uid://c2omkdtr0p55c" path="res://rat/medic_spwanner.gd" id="1_ldr0p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16ngs"]
+
+[node name="medic_spwanner" type="Area2D" unique_id=1050841861]
+monitoring = false
+monitorable = false
+script = ExtResource("1_ldr0p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=382174184]
+shape = SubResource("RectangleShape2D_16ngs")
+debug_color = Color(0.9994715, 0, 0.15210235, 0.41960785)
+
+[node name="Timer" type="Timer" parent="." unique_id=2045344277]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

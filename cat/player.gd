@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+signal upgrade(do:String)
+
+@onready var rat_king_room: Node2D = $"../rat_king_room"
+@onready var player_ui: Control = $player_ui
 
 @onready var attack_sprite: Node2D = $att_spi
 @onready var animation: AnimationPlayer = $AnimationPlayer
@@ -47,13 +51,31 @@ var knock_s: float = 300
 var attack_mul:int = 0
 var speed_mul:int = 0
 
+@onready var dash_a: Area2D = $dash
+
+#upgrade
+var dash_up: bool = false
+var sleep_up: bool = false
+var bite_up: bool = false
+var hit_box_up: bool = false
+@onready var swipe_coli: Area2D = $swipe
+@onready var bite_coli: Area2D = $bite
+@onready var dash_coli: Area2D = $dash
+var attack_hitbox: Array
+
 func _ready() -> void:
+	attack_hitbox.append(swipe_coli)
+	attack_hitbox.append(bite_coli)
+	attack_hitbox.append(dash_coli)
 	cam_disable()
 	hp = max_hp
 	attack_dmg = base_attack_dmg
 	speed = base_speed
 
 func _unhandled_input(event: InputEvent) -> void:
+	if animation.is_playing() and (animation.current_animation == "dead" or animation.current_animation == "sleep"):
+		return
+	
 	if !knockback:
 		if event.is_action_pressed("dodge") and !is_dodge and dodge_t.is_stopped() and !is_attack:
 			animation.play("RESET")
@@ -70,9 +92,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			attack_intent = true
 		elif event.is_action_released("attack"):
 			attack_intent = false
+		elif event.is_action_pressed("sleep") and sleep_up:
+			animation.play("RESET")
+			animation.play("sleep")
 
 func _physics_process(delta: float) -> void:
-	if animation.is_playing() and animation.current_animation == "dead":
+	if animation.is_playing() and (animation.current_animation == "dead" or animation.current_animation == "sleep"):
 		return
 	
 	var direction1 := Input.get_axis("ui_left", "ui_right")
@@ -98,7 +123,10 @@ func _physics_process(delta: float) -> void:
 	
 	if !is_attack:
 		if (attack_intent):
-			attack_hold_t += delta
+			if bite_up:
+				attack_hold_t += delta
+			elif attack_hold_t == 0:
+				attack_hold_t += delta
 			if attack_hold_t > attack_hold:
 				bite()
 		elif !attack_intent and attack_hold_t > 0:
@@ -213,8 +241,11 @@ func attack_fin():
 func get_hit(knockback_dir: Vector2, _knock_s = knock_s):
 	if animation.is_playing() and animation.current_animation == "dead":
 		return
-	
+
 	if !is_vul and !is_dodge:
+		if animation.is_playing() and animation.current_animation == "sleep":
+			animation.stop()
+			animation.play("RESET")
 		frame_freeze(0.08)
 		is_vul = true
 		vul.start(vul_t)
@@ -236,6 +267,13 @@ func check_bite():
 		if i.is_in_group("rat"):
 			frame_freeze(0.08)
 			i.get_hit(attack_dmg, 150)
+	
+func check_dash():
+	if dash_up:
+		for i in dash_a.get_overlapping_areas():
+			if i.is_in_group("rat"):
+				frame_freeze(0.08)
+				i.get_hit(attack_dmg, 100)
 
 func enter_hub():
 	full_heal()
@@ -253,15 +291,28 @@ func frame_freeze(duration: float) -> void:
 
 func dead():
 	global_position = Vector2(145, -106)
+	hp = max_hp
 	Global.rat_soul = 0
+	Global.cam_lock = true
+	Global.save_zone = true
+	if is_attack:
+		attack_fin()
+	cam_disable()
+	rat_king_room.exit_room()
+
+func tp():
+	global_position = Vector2(145, -106)
 	hp = max_hp
 	Global.cam_lock = true
+	Global.save_zone = true
+	if is_attack:
+		attack_fin()
 	cam_disable()
-	
+
 func boost():
-	attack_mul += 5
-	if speed_mul < 25:
-		speed_mul += 1
+	attack_mul += 50
+	if speed_mul < 100:
+		speed_mul += 10
 	attack_dmg = base_attack_dmg * ((float(attack_mul) / 100) + 1)
 	speed = base_speed * ((float(speed_mul) / 100) + 1)
 	
@@ -276,6 +327,25 @@ func cam_disable():
 
 func cam_enable():
 	cam.enabled = true
+
+func collect(do:String):
+	if do == "sleep":
+		sleep_up = true
+	elif do == "bite":
+		bite_up = true
+	elif do == "hit_box":
+		hit_box_up = true
+		var sc = 2
+		for i in attack_hitbox:
+			i.scale = Vector2(sc,sc)
+		attack_sprite.scale = Vector2(sc,sc)
+	elif do == "dash_up":
+		dash_up = true
+		dodge_cooldown = 0.6
+	else:
+		print(do)
+	emit_signal("upgrade", do)
+	player_ui.contol_update(do)
 	
 func max_hp_up():
 	max_hp += 2

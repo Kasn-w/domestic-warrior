@@ -13,6 +13,8 @@ var max_hp: float
 
 @onready var getaway_box: Area2D = $getaway_box
 
+@onready var particle_player: AnimationPlayer = $particlePlayer
+
 @onready var blink: Timer = $blink
 @onready var sprite: AnimatedSprite2D = $ani_sprite/AnimatedSprite2D
 @onready var ani_sprite: Node2D = $ani_sprite
@@ -123,7 +125,14 @@ func get_hit(dmg:float, modi:String = "s", _knock_s = knock_s):
 		return
 	
 	hp -= dmg
-	if modi == "s":
+	if modi == "s" or modi == "w":
+		is_attack = false
+		is_thinking = true
+		action = "walk"
+		animation.speed_scale = 1
+		thinking.stop()
+		act.stop()
+		
 		animation.stop()
 		animation.play("RESET")
 		is_stun = true
@@ -164,7 +173,7 @@ func _on_act_timeout() -> void:
 	is_attack = false
 	think_start()
 
-func _on_thinking_timeout() -> void:
+func _on_thinking_timeout() -> void:		
 	if !is_stun:
 		if attack_range.overlaps_body(player):
 			attack_where = (player.global_position - global_position).normalized()
@@ -183,6 +192,9 @@ func start_fin():
 	animation.play("attack")
 	
 func _on_attack_range_body_entered(body: Node2D) -> void:
+	if !see:
+		return
+	
 	if !is_stun and !is_attack:
 		if body.is_in_group("player"):
 			is_thinking = true
@@ -204,9 +216,12 @@ func _hit_end():
 	else:
 		is_stun = false
 		animation.play("RESET")
+		is_thinking = true
+		think_start()
+
 
 func _super_dead():
-	if (hp < (-max_hp * 2)):
+	if (hp < (-max_hp)):
 		is_drying = true
 		animation.play("down")
 
@@ -218,10 +233,19 @@ func _on_see_range_body_entered(body: Node2D) -> void:
 		set_process(true)
 		_on_thinking_timeout()
 
-func _on_unsee_range_body_exited(body: Node2D) -> void:
+func _on_unsee_range_body_exited(body: Node2D) -> void:	
 	if body.is_in_group("player"):
 		set_process(false)
 		see = false
 
 func _dead_soul():
 	Global.rat_soul += 1
+
+func get_heal():
+	var value = mini(floor(hp + 10),floor(max_hp))
+	hp = value
+	particle_player.play("heal")
+
+
+func _on_hit_box_a_get_heal() -> void:
+	get_heal()

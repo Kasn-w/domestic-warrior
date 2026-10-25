@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dv2gt3gwncg5j"]
 
 [ext_resource type="Texture2D" uid="uid://c12wy34qaviq4" path="res://sprite/heart.png" id="1_wp2ae"]
-[ext_resource type="Script" uid="uid://blgpi1cg6xx08" path="res://heart.gd" id="2_0un12"]
+[ext_resource type="Script" uid="uid://blgpi1cg6xx08" path="res://collect/heart.gd" id="2_0un12"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1ckio"]
 radius = 21.413698

@@ -9,14 +9,16 @@ var _start: bool = true
 @onready var den_exp: Label = $den_exp
 @onready var shrin_exp: Label = $shrin_exp
 
+@onready var control: Label = $control
+
 var z = 0
 var sprite = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#for i in range(100):
 		#spaw_rat()
+	_on_player_upgrade("do")
 	pass
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -26,7 +28,7 @@ func _process(delta: float) -> void:
 			player.boost()
 			if _start:
 				_start = false
-				den_exp.visible = false
+				den_exp.text = "Besure to read the"+'\n'+"control, it's important"
 				shrin_exp.visible = false
 			
 		if Global.rat_soul > 0:
@@ -46,3 +48,15 @@ func spaw_rat(_hp: float = 5.0, _speed: float = 20.0, _agg: float = 1):
 	
 	all_rat.add_child(create)
 	create.global_position = Vector2(149,96)
+
+
+func _on_player_upgrade(do: String) -> void:
+	control.text = "     -control-\nwasd   - movement\nM_left - claw swipe\nM_right - dash\n"
+	if player.dash_up:
+		control.text += "  (now do damanage!)\n"
+	if player.bite_up:
+		control.text += "hold m-left + wasd\n               - bite\n"
+	if player.sleep_up:
+		control.text += "E - sleep and tp back\n"
+	if player.hit_box_up:
+		control.text += "(bigger hit box)\n"

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b6c367jdsn4o3"]
+
+[ext_resource type="Script" uid="uid://dlcptuqek3p5" path="res://rat/armmor_spwanner.gd" id="1_nrgw3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16ngs"]
+size = Vector2(192, 203)
+
+[node name="ammor_spwanner" type="Area2D" unique_id=1050841861]
+monitoring = false
+monitorable = false
+script = ExtResource("1_nrgw3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=382174184]
+shape = SubResource("RectangleShape2D_16ngs")
+debug_color = Color(0.3237716, 0.49217683, 1, 0.41960785)
+
+[node name="Timer" type="Timer" parent="." unique_id=2045344277]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

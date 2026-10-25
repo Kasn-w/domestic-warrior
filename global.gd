@@ -13,6 +13,8 @@ var amount: float = 0
 var rat_soul_rate:float = 25
 var boost_temp: int = 0
 
+var save_zone:bool = true
+
 var normal: Dictionary = {}
 func _ready() -> void:
 	for property in get_script().get_script_property_list():
