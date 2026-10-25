@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bfn6xdmfil3np" path="res://level/hub_a.tscn" id="2_vkbyq"]
 [ext_resource type="Script" uid="uid://dsw6f6cbpg67y" path="res://level/cam_en.gd" id="3_ktfr2"]
 [ext_resource type="PackedScene" uid="uid://gdj15ea3ciqi" path="res://level/wall.tscn" id="3_qohg2"]
+[ext_resource type="AudioStream" uid="uid://dxfr6n1q12bo4" path="res://sound/shrine_drain.mp3" id="4_sui6v"]
 [ext_resource type="Texture2D" uid="uid://ck223bwgnqgqh" path="res://sprite/ui/arrow.png" id="5_0v1st"]
 [ext_resource type="PackedScene" uid="uid://bk04ersfemi0y" path="res://level/shrine.tscn" id="6_44x8d"]
 [ext_resource type="Script" uid="uid://bxdf1lpevwk7c" path="res://level/rat_king_door.gd" id="7_7jqyl"]
@@ -39,6 +40,12 @@ outline_color = Color(0, 0, 0, 1)
 font = ExtResource("2_ivpvi")
 font_size = 10
 font_color = Color(0.8, 0.07450981, 0, 1)
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_sui6v"]
+font = ExtResource("2_ivpvi")
+font_size = 10
+font_color = Color(0, 0, 0, 1)
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_44x8d"]
@@ -195,9 +202,23 @@ offset_bottom = -80.0
 text = "No carry over"
 label_settings = SubResource("LabelSettings_cw150")
 
+[node name="victory" type="Label" parent="." unique_id=1605856053]
+visible = false
+offset_left = 31.0
+offset_top = -189.0
+offset_right = 114.0
+offset_bottom = -170.0
+text = "rat king defeat: 0
+fastest: 11:11:11"
+label_settings = SubResource("LabelSettings_sui6v")
+
 [node name="shrine" parent="." unique_id=818951730 instance=ExtResource("6_44x8d")]
 position = Vector2(82.00001, -120)
 scale = Vector2(1.2, 1.2)
+
+[node name="shrne_drain" type="AudioStreamPlayer2D" parent="." unique_id=1570293659]
+stream = ExtResource("4_sui6v")
+volume_db = -13.0
 
 [node name="player" parent="." unique_id=169657093 instance=ExtResource("1_7lnir")]
 y_sort_enabled = true
@@ -853,18 +874,16 @@ script = ExtResource("14_m3nah")
 
 [node name="rat_king" parent="rat_king_room" unique_id=736146869 instance=ExtResource("10_m3nah")]
 position = Vector2(134, -561)
-hp = 500.0
-aggressive = 2
-think_t = 0.5
 
 [node name="ammor_spwanner" type="Area2D" parent="rat_king_room" unique_id=1483112404]
 position = Vector2(25, -547)
 monitoring = false
 monitorable = false
 script = ExtResource("13_l5lfc")
+interval = 15.0
 amout = 10.0
 hp = 80.0
-speed = 20.0
+speed = 30.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="rat_king_room/ammor_spwanner" unique_id=643094574]
 position = Vector2(1, 0)
@@ -881,7 +900,7 @@ position = Vector2(248, -547)
 monitoring = false
 monitorable = false
 script = ExtResource("13_l5lfc")
-amout = 10.0
+amout = 15.0
 hp = 80.0
 speed = 20.0
 
@@ -900,7 +919,7 @@ position = Vector2(134, -428)
 monitoring = false
 monitorable = false
 script = ExtResource("12_rhqlf")
-interval = 25.0
+interval = 35.0
 amout = 10.0
 hp = 10.0
 speed = 30.0
@@ -919,6 +938,8 @@ position = Vector2(61, -504)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
+interval = 5.0
+amout = 20.0
 hp = 40.0
 speed = 20.0
 
@@ -937,6 +958,8 @@ position = Vector2(61, -380)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
+interval = 5.0
+amout = 20.0
 hp = 40.0
 speed = 20.0
 
@@ -955,6 +978,8 @@ position = Vector2(212, -504)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
+interval = 5.0
+amout = 20.0
 hp = 40.0
 speed = 20.0
 
@@ -973,6 +998,8 @@ position = Vector2(212, -380)
 monitoring = false
 monitorable = false
 script = ExtResource("9_cw150")
+interval = 5.0
+amout = 20.0
 hp = 40.0
 speed = 20.0
 

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cmoy3lq6ugxnk"]
+
+[ext_resource type="Script" uid="uid://cpil72bmtm2dd" path="res://sound/one_shot_audio.gd" id="1_iicri"]
+
+[node name="one_shot_audio" type="AudioStreamPlayer2D" unique_id=1752957342]
+script = ExtResource("1_iicri")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

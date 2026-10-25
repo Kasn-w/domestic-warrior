@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var shrne_drain: AudioStreamPlayer2D = $shrne_drain
+
 const rat = preload("uid://dh1tydhd1nda")
 @onready var all_rat: Node2D = $all_rat
 @onready var player: CharacterBody2D = $player
@@ -10,18 +12,27 @@ var _start: bool = true
 @onready var shrin_exp: Label = $shrin_exp
 
 @onready var control: Label = $control
+@onready var victory: Label = $victory
 
 var z = 0
 var sprite = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	#for i in range(100):
 		#spaw_rat()
 	_on_player_upgrade("do")
-	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if !victory.visible and Global.rat_king_defeat > 0:
+		victory.visible = true
+	victory.text = "rat king defeat: "+ str(Global.rat_king_defeat) + "\n"
+	var minute := int(Global.rat_king_time_fast / 60.0)
+	var second := int(Global.rat_king_time_fast) % 60
+	var ms := int((Global.rat_king_time_fast - int(Global.rat_king_time_fast)) * 1000.0)
+	victory.text += "fastest: "+ str(minute) + ":" + str(second) + ":" + str(ms)
+
 	if Global.is_boost:
 		if (Global.boost_temp >= 50):
 			Global.boost_temp -= 50
@@ -32,6 +43,8 @@ func _process(delta: float) -> void:
 				shrin_exp.visible = false
 			
 		if Global.rat_soul > 0:
+			if !shrne_drain.playing:
+				shrne_drain.play()
 			Global.amount += Global.rat_soul_rate * delta
 			var whole = int(Global.amount)
 			if whole > 0:
@@ -39,9 +52,14 @@ func _process(delta: float) -> void:
 				Global.boost_temp += Global.rat_soul - value
 				Global.rat_soul = value
 				Global.amount -= whole
+		else:
+			if shrne_drain.playing:
+				shrne_drain.stop()
 
-
-
+func _shrine_stop():
+	if shrne_drain.playing:
+		shrne_drain.stop()
+	
 func spaw_rat(_hp: float = 5.0, _speed: float = 20.0, _agg: float = 1):
 	var create = rat.instantiate()
 	create.setup(_hp,_speed,randi_range(0, 2))

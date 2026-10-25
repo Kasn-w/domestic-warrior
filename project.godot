@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Enchanted_cat"
-run/main_scene="uid://cv3xcxfheatik"
+run/main_scene="uid://b1x5raaw8wfay"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Global="*uid://bn4ynbqasarho"
+Music="*uid://pw0a2xcuy888"
 
 [display]
 

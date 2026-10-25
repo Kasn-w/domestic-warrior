@@ -122,6 +122,7 @@ func _process(delta: float) -> void:
 	
 func get_hit(dmg:float, modi:String = "s", _knock_s = knock_s):
 	if is_drying:
+		_super_dead()
 		return
 	
 	hp -= dmg

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 signal upgrade(do:String)
 
+const ONE_SHOT_AUDIO = preload("uid://cmoy3lq6ugxnk")
+
 @onready var rat_king_room: Node2D = $"../rat_king_room"
 @onready var player_ui: Control = $player_ui
 
@@ -66,7 +68,7 @@ var attack_hitbox: Array
 func _ready() -> void:
 	attack_hitbox.append(swipe_coli)
 	attack_hitbox.append(bite_coli)
-	attack_hitbox.append(dash_coli)
+	#attack_hitbox.append(dash_coli)
 	cam_disable()
 	hp = max_hp
 	attack_dmg = base_attack_dmg
@@ -78,6 +80,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if !knockback:
 		if event.is_action_pressed("dodge") and !is_dodge and dodge_t.is_stopped() and !is_attack:
+			attack_intent = false
+			attack_hold_t = 0
 			animation.play("RESET")
 			dodge_t.start(dodge_cooldown)
 			is_dodge = true
@@ -86,13 +90,14 @@ func _unhandled_input(event: InputEvent) -> void:
 				animation.play("dash", 0.3)
 				dodge_x = velocity.x
 				dodge_y = velocity.y
+				play_audio("res://sound/dodge.mp3")
 			else:
 				animation.play("jump", 0.3)
 		elif event.is_action_pressed("attack") and !is_attack and !is_dodge and !attack_intent:
 			attack_intent = true
 		elif event.is_action_released("attack"):
 			attack_intent = false
-		elif event.is_action_pressed("sleep") and sleep_up:
+		elif event.is_action_pressed("sleep") and sleep_up and !is_attack and !is_dodge:
 			animation.play("RESET")
 			animation.play("sleep")
 
@@ -139,14 +144,16 @@ func _physics_process(delta: float) -> void:
 	if (is_bite):
 		velocity.x = bite_x / 1.2
 		velocity.y = bite_y / 1.2
-	if (!is_attack) or is_bite:
-		if (knockback):
-			velocity = knock_dir
-			knock_dir = knock_dir.move_toward(Vector2.ZERO, 850 * delta)
-			if knock_dir == Vector2.ZERO:
-				knockback = false
-				if hp <= 0:
-					animation.play("dead")
+	if knockback:
+		velocity = knock_dir
+		knock_dir = knock_dir.move_toward(Vector2.ZERO, 850 * delta)
+		if knock_dir.is_zero_approx():
+			knockback = false
+			if hp <= 0:
+				animation.play("dead")
+				play_audio("res://sound/cat_dead.mp3")
+		move_and_slide()
+	elif !is_attack or is_bite:
 		move_and_slide()
 	
 	if !is_dodge and !is_attack:
@@ -215,11 +222,18 @@ func _on_dodge_timeout() -> void:
 	dodge_t.stop()
 
 func swipe():
+	var audio_check = false
 	is_attack = true
 	animation.play("swipe")
+	
 	for i in swipe_a.get_overlapping_areas():
 		if i.is_in_group("rat"):
+			if !audio_check:
+				play_audio("res://sound/swipe.mp3")
+				audio_check = true
 			i.get_hit(attack_dmg)
+	if !audio_check:
+		play_audio("res://sound/whiff.mp3")
 	
 func bite():
 	is_attack = true
@@ -227,6 +241,7 @@ func bite():
 	bite_x = velocity.x
 	bite_y = velocity.y
 	animation.play("bite")
+	play_audio("res://sound/cat_bite.mp3")
 
 func attack_fin():
 	is_attack = false
@@ -243,10 +258,16 @@ func get_hit(knockback_dir: Vector2, _knock_s = knock_s):
 		return
 
 	if !is_vul and !is_dodge:
+		if is_attack:
+			attack_fin()
+			attack_intent = false
+			attack_hold_t = 0
+			
 		if animation.is_playing() and animation.current_animation == "sleep":
 			animation.stop()
 			animation.play("RESET")
-		frame_freeze(0.08)
+		play_audio("res://sound/cat_gethit.mp3")
+		frame_freeze(0.13)
 		is_vul = true
 		vul.start(vul_t)
 		hp -= 1
@@ -263,15 +284,23 @@ func be_no_vul():
 	is_vul = false
 	
 func check_bite():
+	var audio_check = false
 	for i in bite_a.get_overlapping_areas():
 		if i.is_in_group("rat"):
-			frame_freeze(0.08)
+			if !audio_check:
+				play_audio("res://sound/bite.mp3")
+				audio_check = true
+			frame_freeze(0.1)
 			i.get_hit(attack_dmg, 150)
 	
 func check_dash():
+	var audio_check = false
 	if dash_up:
-		for i in dash_a.get_overlapping_areas():
+		for i in dash_a.get_overlapping_areas():			
 			if i.is_in_group("rat"):
+				if !audio_check:
+					play_audio("res://sound/bite.mp3")
+					audio_check = true
 				frame_freeze(0.08)
 				i.get_hit(attack_dmg, 100)
 
@@ -299,6 +328,7 @@ func dead():
 		attack_fin()
 	cam_disable()
 	rat_king_room.exit_room()
+	play_audio("res://sound/tp.mp3")
 
 func tp():
 	global_position = Vector2(145, -106)
@@ -308,10 +338,12 @@ func tp():
 	if is_attack:
 		attack_fin()
 	cam_disable()
+	play_audio("res://sound/tp.mp3")
 
 func boost():
+	play_audio("res://sound/upgrade.mp3")
 	attack_mul += 50
-	if speed_mul < 100:
+	if speed_mul < 70:
 		speed_mul += 10
 	attack_dmg = base_attack_dmg * ((float(attack_mul) / 100) + 1)
 	speed = base_speed * ((float(speed_mul) / 100) + 1)
@@ -329,6 +361,7 @@ func cam_enable():
 	cam.enabled = true
 
 func collect(do:String):
+	play_audio("res://sound/collect.mp3")
 	if do == "sleep":
 		sleep_up = true
 	elif do == "bite":
@@ -348,5 +381,12 @@ func collect(do:String):
 	player_ui.contol_update(do)
 	
 func max_hp_up():
+	play_audio("res://sound/collect.mp3")
 	max_hp += 2
 	hp = max_hp
+
+func play_audio(file:String):
+	var create = ONE_SHOT_AUDIO.instantiate()
+	
+	add_child(create)
+	create.set_up(file)

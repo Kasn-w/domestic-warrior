@@ -560,6 +560,23 @@ tracks/2/keys = {
 "method": &"tp"
 }]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.16666667, 0.33333334),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": ["res://sound/plop.mp3"],
+"method": &"play_audio"
+}, {
+"args": ["res://sound/sleep.mp3"],
+"method": &"play_audio"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_7g6ba"]
 resource_name = "startup"

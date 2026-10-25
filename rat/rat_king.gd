@@ -1,12 +1,15 @@
 extends Node2D
+
+const ONE_SHOT_AUDIO = preload("uid://cmoy3lq6ugxnk")
+
 var max_hp: float
-@export var hp: float = 10
-@export var speed: float = 20
-@export var aggressive: int = 1
+@export var hp: float = 600
+@export var speed: float = 30
+@export var aggressive: int = 2
 @export var stop_dis: float = 10
 @export var getaway_s: float = 1.5
 
-@export var think_t: float = 1
+@export var think_t: float = 0.5
 @onready var thinking: Timer = $thinking
 @onready var act: Timer = $act
 @export var act_t: float = 5
@@ -126,18 +129,10 @@ func get_hit(dmg:float, modi:String = "s", _knock_s = knock_s):
 		return
 	
 	if modi == "s":
-		is_attack = false
-		is_thinking = true
-		action = "walk"
-		animation.speed_scale = 1
-		thinking.stop()
-		act.stop()
-		
 		hp -= dmg
-		animation.stop()
-		animation.play("RESET")
-		is_stun = true
-		animation.play("get_hit")
+		if (hp < 0):
+			is_drying = true
+			animation.play("down")
 		knockback = true
 		knock_dir = (player.global_position - global_position).normalized() * _knock_s / 2
 	elif modi == "w":
@@ -194,6 +189,7 @@ func start_fin():
 	is_attack = true
 	animation.speed_scale = 1
 	animation.play("attack")
+	play_audio("res://sound/rat_king_dash.mp3")
 	
 func _on_attack_range_body_entered(body: Node2D) -> void:
 	if !see:
@@ -225,7 +221,7 @@ func _hit_end():
 		think_start()
 
 func _super_dead():
-	if (hp < (-max_hp)):
+	if (hp < 0):
 		is_drying = true
 		animation.play("down")
 
@@ -243,13 +239,21 @@ func _on_unsee_range_body_exited(body: Node2D) -> void:
 		see = false
 
 func _dead_soul():
+	Global.rat_king_defeat += 1
 	Global.rat_soul += 1
+	Global.fast_time()
 
 func get_heal():
-	var value = mini(floor(hp + 10),floor(max_hp))
+	var value = mini(floor(hp + 50),floor(max_hp))
 	hp = value
 	particle_player.play("heal")
 
 
 func _on_hit_box_a_get_heal() -> void:
 	get_heal()
+
+func play_audio(file:String):
+	var create = ONE_SHOT_AUDIO.instantiate()
+	
+	add_child(create)
+	create.set_up(file)

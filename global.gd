@@ -15,7 +15,16 @@ var boost_temp: int = 0
 
 var save_zone:bool = true
 
+var rat_king_defeat:int = 0
+var rat_king_time: float = 0
+var rat_king_time_fast: float = INF
+
 var normal: Dictionary = {}
+
+func fast_time():
+	if rat_king_time < rat_king_time_fast:
+		rat_king_time_fast = rat_king_time
+	
 func _ready() -> void:
 	for property in get_script().get_script_property_list():
 		var prop_name = property.name
